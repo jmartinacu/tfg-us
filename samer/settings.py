@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -119,3 +120,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# AWS S3
+
+AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME", "")
+
+AWS_DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION", "")
