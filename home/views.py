@@ -1,3 +1,19 @@
+from django.db.models import Count
 from django.shortcuts import render
 
-# Create your views here.
+from posts.models import Post
+
+
+def home_images(request):
+    posts = Post.objects.filter(
+        post_type=Post.PostTypes.IMAGE,
+    ).annotate(
+        comments=Count("comments"),
+    )
+    return render(
+        request,
+        "home/home.html",
+        {
+            "posts": posts,
+        },
+    )
