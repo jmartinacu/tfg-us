@@ -17,3 +17,18 @@ def home_images(request):
             "posts": posts,
         },
     )
+
+
+def home_videos(request):
+    posts = Post.objects.filter(
+        post_type=Post.PostTypes.VIDEO,
+    ).annotate(
+        comments=Count("comments"),
+    )
+    return render(
+        request,
+        "home/home.html",
+        {
+            "posts": posts,
+        },
+    )
