@@ -8,9 +8,9 @@ class Post(models.Model):
         IMAGE = "IM", _("Image")
         VIDEO = "VD", _("Video")
 
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=255)
     object_names = ArrayField(
-        models.CharField(max_length=30),
+        models.CharField(max_length=255),
         blank=True,
         null=True,
     )
