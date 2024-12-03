@@ -1,7 +1,26 @@
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import redirect, render
 from django.urls import reverse
+
+
+def login_view(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is None:
+                # TODO: add error message
+                return render(request, "users/login.html", {"form": form})
+            login(request, user)
+            return redirect(reverse("home:home_images"))
+        else:
+            return render(request, "users/login.html", {"form": form})
+    else:
+        form = AuthenticationForm()
+    return render(request, "users/login.html", {"form": form})
 
 
 def register(request):

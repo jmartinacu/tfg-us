@@ -9,26 +9,21 @@
 
 {% block content %}
 <div class="container login-container">
-    <form method="post" action="{% url "users:register" %}" class="form">
+    <form method="post" action="{% url "users:login" %}" class="form">
         {% csrf_token %}
         <div class="title">Bienvenido</div>
-        <div class="subtitle">Crea una cuenta en samer</div>
+        <div class="subtitle">Inicia sesión en tu cuenta</div>
         <div class="input-container ic1">
             {{form.username}}
             <div class="cut"></div>
             <label for="username" class="placeholder">Usuario</label>
         </div>
         <div class="input-container ic2">
-            {{form.password1}}
+            {{form.password}}
             <div class="cut"></div>
-            <label for="password1" class="placeholder">Contraseña</label>
+            <label for="password" class="placeholder">Contraseña</label>
         </div>
-        <div class="input-container ic2">
-            {{form.password2}}
-            <div class="cut"></div>
-            <label for="password2" class="placeholder">Confirma la contraseña</label>
-        </div>
-        <button type="submit" class="submit">Crea una cuenta</button>
+        <button type="submit" class="submit">Inicia sesión</button>
     </form>
     {% if form.errors %}
         <div style="color: red;">
