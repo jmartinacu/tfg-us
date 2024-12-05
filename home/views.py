@@ -14,11 +14,13 @@ def home_images(request):
     ).annotate(
         comments=Count("comments"),
     )
+    profile = ProfileInformation.objects.first()
     return render(
         request,
         "home/home.html",
         {
             "posts": posts,
+            "profile": profile,
         },
     )
 
@@ -29,11 +31,13 @@ def home_videos(request):
     ).annotate(
         comments=Count("comments"),
     )
+    profile = ProfileInformation.objects.first()
     return render(
         request,
         "home/home.html",
         {
             "posts": posts,
+            "profile": profile,
         },
     )
 
