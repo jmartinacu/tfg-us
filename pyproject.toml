@@ -12,6 +12,8 @@ django = "^5.1.2"
 python-dotenv = "^1.0.1"
 boto3 = "^1.35.54"
 psycopg2 = "^2.9.10"
+python-magic = "^0.4.27"
+requests = "^2.32.3"
 
 
 [build-system]
