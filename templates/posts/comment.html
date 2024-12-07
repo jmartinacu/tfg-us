@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href={% static "/css/comment.css" %}>
+    {% block subhead %}{% endblock subhead %}
+{% endblock head %}
+
+{% block title %}COMMENT{% endblock title %}
+
+{% block header %}{% endblock header %}
+
+{% block content %}
+    <div class="comment-container">
+        <section class="comment-image-container">
+            {% block url_content %}{% endblock url_content %}
+        </section>
+        <div class="comment-list-container">
+            {% if post.description %}
+                <h3>Descripción:</h3>
+                <p class="comment-description">
+                    {{post.description}}
+                </p>
+            {% endif %}
+            <h3>Comentarios:</h3>
+            {% if comments|length == 0 %}
+                <p class="no-comment-list">No hay comentarios</p>
+            {% else %}
+                <ul class="comment-list">
+                {% for comment in comments %}
+                    <li>
+                        <div class="comment-list-item">
+                            <strong>{{comment.author.username}}</strong>
+                            {{comment.text}}
+                        </div>
+                        {% if user.is_authenticated and user == comment.author %}
+                            <a href="{% url "posts:remove_comment" post.id comment.id %}"><i class="material-icons">delete</i></a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            <h3 class="">Añade un comentario:</h3>
+            <form class="comment-form" id="createCommentForm" action="{% url 'posts:comment' post.id post.post_type %}" method="post">
+                {% csrf_token %}
+                <div class="textarea-container">
+                    {{form.comment}}
+                </div>
+                <div>
+                    <button type="submit">Añadir Comentario</button>
+                    <a href="{% url 'posts:add_remove_like' post.id %}?redirect=posts:comment&type={% if post.post_type == 'IM'%}image{% else %}video{% endif %}"><i class="material-icons">favorite</i></a>
+                </div>
+            </form>
+            {% if user.is_authenticated and user in post.likes and post.likes|length > 2 %}
+                <p>Te gusta a ti y a <strong>{{post.likes|length|add:"-1"}}</strong> personas</p>
+            {% elif post.likes|length > 0 %}
+                <p>Le gusta a <strong>{{post.likes|length}}</strong> {% if post.likes|length > 1 %}personas{% else %}persona{% endif %}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

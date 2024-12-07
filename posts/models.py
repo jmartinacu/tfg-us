@@ -1,3 +1,5 @@
+import magic
+import requests
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -31,6 +33,15 @@ class PostSource(models.Model):
         related_name="sources",
     )
 
+    def get_mime_type(self):
+        result = None
+        response = requests.get(self.url, stream=True, timeout=10)
+        response.raise_for_status()
+        mime = magic.Magic(mime=True)
+        result = mime.from_buffer(response.raw.read(1024))
+        response.close()
+        return result
+
     def __str__(self):
         return self.name
 
@@ -39,6 +50,11 @@ class Comment(models.Model):
     text = models.TextField()
     post = models.ForeignKey(
         Post,
+        on_delete=models.CASCADE,
+        related_name="comments",
+    )
+    author = models.ForeignKey(
+        User,
         on_delete=models.CASCADE,
         related_name="comments",
     )

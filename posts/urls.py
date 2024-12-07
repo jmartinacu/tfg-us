@@ -10,4 +10,9 @@ urlpatterns = [
         views.add_remove_like,
         name="add_remove_like",
     ),
+    path(
+        "comment/<int:post_id>/<str:post_type>/",
+        views.comments,
+        name="comment",
+    ),
 ]

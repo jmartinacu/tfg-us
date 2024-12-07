@@ -1,7 +1,8 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from posts.models import Post
+from posts.forms import CreateCommentForm
+from posts.models import Comment, Post
 
 
 def add_remove_like(request, post_id):
@@ -40,3 +41,54 @@ def add_remove_like(request, post_id):
     if post_type:
         return redirect(reverse(redirect_view, args=[post_id, post_type]))
     return redirect(reverse(redirect_view))
+
+
+def comments(request, post_id, post_type):
+    template = ""
+    if post_type == "IM":
+        template = "posts/image.html"
+    elif post_type == "VD":
+        template = "posts/video.html"
+    else:
+        # TODO: messages.error(request, "Tipo de publicación incorrecto")
+        return redirect(reverse("home:home_images"))
+    post = Post.objects.filter(id=post_id).first()
+    if post is None:
+        # TODO: messages.error(request, "Publicación no encontrada")
+        if post_type == "VD":
+            return redirect(reverse("home:home_videos"))
+        else:
+            return redirect(reverse("home:home_images"))
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            # TODO: messages.error(
+            #     request,
+            #     "Hay que tener una sesión creada e iniciada",
+            # )
+            return redirect(
+                reverse(
+                    "posts:comment",
+                    args=[post_id, post_type],
+                )
+            )
+        comment_form = CreateCommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.cleaned_data["comment"]
+            Comment.objects.create(
+                text=comment,
+                post=post,
+                author=request.user,
+            )
+    mime_types = [source.get_mime_type() for source in post.sources]
+    comment_form = CreateCommentForm()
+    comments = Comment.objects.filter(post=post)
+    return render(
+        request,
+        template,
+        {
+            "post": post,
+            "mime_types": mime_types,
+            "comments": comments,
+            "form": comment_form,
+        },
+    )

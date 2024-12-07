@@ -1,0 +1,25 @@
+{% extends "posts/comment.html" %}
+{% load static %}
+
+{% block subhead %}
+    <link rel="stylesheet" href={% static "/css/slider.css" %}>
+{% endblock subhead %}
+
+{% block url_content %}
+	{% if post.sources|length == 1%}
+		<img src={{post.sources.0.url}} alt={{post.name}}>
+	{% else %}
+		<div class="slider-wrapper">
+			<div class="slider">
+				{% for source in post.sources %}
+				    <img id="slide-{{source.name}}-{{forloop.counter}}" src={{source.url}} class="slide" alt="{{source.name}}-slide-{{forloop.counter}}">
+				{% endfor %}
+			</div>
+			<div class="dots">
+				{% for source in post.sources %}
+					<a href="#slide-{{source.name}}-{{forloop.counter}}"></a>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+{% endblock url_content %}
