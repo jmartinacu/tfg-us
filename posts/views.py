@@ -92,3 +92,39 @@ def comments(request, post_id, post_type):
             "form": comment_form,
         },
     )
+
+
+def remove_comment(request, post_id: str, comment_id: str):
+    post = Post.objects.filter(id=post_id).first()
+    post_type = post.post_type
+    if post is None:
+        # TODO: messages.error(request, "Publicación no encontrada")
+        return redirect(reverse("home:home_videos"))
+    comment = Comment.objects.filter(id=comment_id).first()
+    if comment is None:
+        # TODO: messages.error(request, "Comentario no encontrado")
+        return redirect(
+            reverse("posts:comment", args=[post_id, post_type]),
+        )
+    if not comment.author == request.user:
+        # TODO: messages.error(request, "El comentario no puede ser eliminado")
+        return redirect(
+            reverse("posts:comment", args=[post_id, post_type]),
+        )
+    comment.delete()
+    comment_form = CreateCommentForm()
+    comments = Comment.objects.filter(post=post)
+    template = "posts/image.html"
+    mime_types = [source.get_mime_type() for source in post.sources]
+    if post_type == "video":
+        template = "posts/video.html"
+    return render(
+        request,
+        template,
+        {
+            "post": post,
+            "mime_types": mime_types,
+            "comments": comments,
+            "form": comment_form,
+        },
+    )
