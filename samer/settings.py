@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "home",
     "posts",
     "users",
+    "questions",
 ]
 
 MIDDLEWARE = [
