@@ -40,3 +40,18 @@ def delete(request, question_id):
         return redirect(reverse("questions:questions"))
     question.delete()
     return redirect(reverse("questions:questions"))
+
+
+def add_remove_like(request, question_id):
+    if not request.user.is_authenticated:
+        # TODO: messages.warning(request, "Necesitas tener una sesión")
+        return redirect(reverse("users:login"))
+    question = Question.objects.filter(id=question_id).first()
+    if question is None:
+        # TODO: messages.error(request, "Pregunta no encontrada")
+        return redirect(reverse("questions:questions"))
+    if question.likes.filter(id=request.user.id).exists:
+        question.likes.remove(request.user)
+    else:
+        question.likes.add(request.user)
+    return redirect(reverse("questions:question", args=[question_id]))
