@@ -6,4 +6,5 @@ app_name = "questions"
 
 urlpatterns = [
     path("", views.questions, name="questions"),
+    path("delete/<int:question_id>/", views.delete, name="delete"),
 ]

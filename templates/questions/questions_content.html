@@ -7,7 +7,7 @@
     {% for question in questions %}
         <div class="question-container {% if question.resolve %}question-resolve{% endif %}" {% if question.resolve %}onclick="showAnswer('{{question.id}}')"{% endif %}>
             <div class="question-author">
-                {% if user_auth.user_auth.username == question.author %}
+                {% if user.is_authenticated and user == comment.author %}
                     <a href="{% url "questions:delete" question.id %}"><i class="material-icons">delete</i></a>
                 {% endif %}
             </div>

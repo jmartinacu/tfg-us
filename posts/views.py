@@ -96,10 +96,10 @@ def comments(request, post_id, post_type):
 
 def remove_comment(request, post_id: str, comment_id: str):
     post = Post.objects.filter(id=post_id).first()
-    post_type = post.post_type
     if post is None:
         # TODO: messages.error(request, "Publicación no encontrada")
         return redirect(reverse("home:home_videos"))
+    post_type = post.post_type
     comment = Comment.objects.filter(id=comment_id).first()
     if comment is None:
         # TODO: messages.error(request, "Comentario no encontrado")
