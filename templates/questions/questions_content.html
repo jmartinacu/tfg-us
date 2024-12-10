@@ -1,0 +1,37 @@
+{% extends "questions/questions.html" %}
+{% load static %}
+
+{% block subhead %}{% endblock subhead %}
+
+{% block questions_content %}
+    {% for question in questions %}
+        <div class="question-container {% if question.resolve %}question-resolve{% endif %}" {% if question.resolve %}onclick="showAnswer('{{question.id}}')"{% endif %}>
+            <div class="question-author">
+                {% if user_auth.user_auth.username == question.author %}
+                    <a href="{% url "questions:delete" question.id %}"><i class="material-icons">delete</i></a>
+                {% endif %}
+            </div>
+            {% if question.resolve %}
+                <div class="question-info">
+                    <p>Resuelta</p>
+                    <a href="{% url "questions:add_remove_like" question.id %}">Me gustas: <span style="color: var(--secondary-color);">{{question.likes|length}}</span></a>
+                    <p>Vistas: <span style="color: var(--secondary-color);">{{question.views|length}}</span></p>
+                </div>
+            {% else %}
+                <div class="question-info">
+                    <p>No Resuelta</p>
+                </div>
+            {% endif %}
+            <strong>{{question.title}}</strong>
+            <p>{{question.content}}</p>
+            {% if question.tags|length > 0 %}
+                <div class="question-tags">
+                    <p>Etiquetas: <strong>{{question.tags|join:", "}}</strong></p>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% if questions|length == 0 %}
+        <p>No se han encontrado preguntas</p>
+    {% endif %}
+{% endblock questions_content %}
