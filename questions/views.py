@@ -30,6 +30,19 @@ def questions(request):
     )
 
 
+def question(request, question_id):
+    question = Question.objects.filter(id=question_id).first()
+    if question is None:
+        # TODO: messages.error(
+        #     request,
+        #     "Pregunta no encontrada",
+        # )
+        return redirect(reverse("questions:questions"))
+    if request.user.is_authenticated and request.user in question.views.all():
+        question.views.add(request.user)
+    return render(request, "questions/question.html", {"question": question})
+
+
 def create(request):
     if not request.user.is_authenticated:
         # TODO: messages.warning(
