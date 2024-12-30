@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from questions.forms import CreateQuestionAnswerForm
+from questions.forms import CreateQuestionAnswerForm, CreateQuestionForm
 from questions.models import Question
 
 
@@ -26,6 +26,49 @@ def questions(request):
         "questions/questions_content.html",
         {"questions": questions},
     )
+
+
+def create(request):
+    if not request.user.is_authenticated:
+        # TODO: messages.warning(
+        #     request,
+        #     "Tienes tener una cuenta para crear una pregunta",
+        # )
+        return redirect(reverse("users:login"))
+    if request.method == "POST":
+        form = CreateQuestionForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["content"]
+            tags: str = form.cleaned_data["tags"]
+            author = form.cleaned_data["author"]
+            tags = tags.split(",")
+            unresolved_questions = Question.objects.filter(
+                author=author,
+                resolve=False,
+                archive=False,
+            )
+            if len(unresolved_questions) > 0:
+                # TODO: messages.warning(
+                #     request,
+                #     "No se puede crear una nueva pregunta, ya hay una en curso",  # noqa
+                # )
+                return redirect(reverse("questions:questions"))
+            Question.objects.create(
+                title=title, content=content, author=author, tags=tags
+            )
+            return redirect(reverse("questions:questions"))
+        else:
+            return render(request, "questions/create.html", {"form": form})
+    else:
+        title = request.GET.get("title", None)
+        content = request.GET.get("content", None)
+        form = CreateQuestionForm(
+            title=title,
+            content=content,
+            username=request.user.username,
+        )
+        return render(request, "questions/create.html", {"form": form})
 
 
 def delete(request, question_id):
