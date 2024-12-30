@@ -156,6 +156,15 @@ def create_answer(request, question_id, edit):
         )
 
 
+def delete_root(request, question_id):
+    question = Question.objects.filter(id=question_id).first()
+    if question is None:
+        #  TODO:messages.error(request, "Pregunta no encontrada")
+        return redirect(reverse("root:questions"))
+    question.delete()
+    return redirect(reverse("root:questions"))
+
+
 def archive(request):
     if request.method == "POST":
         data = json.loads(request.body)
