@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from questions.forms import CreateQuestionAnswerForm
 from questions.models import Question
 
 
@@ -55,3 +56,43 @@ def add_remove_like(request, question_id):
     else:
         question.likes.add(request.user)
     return redirect(reverse("questions:question", args=[question_id]))
+
+
+def create_answer(request, question_id, edit):
+    question = Question.objects.filter(id=question_id).first()
+    if question is None:
+        # TODO: messages.error(request, "Pregunta no encontrada")
+        return redirect(reverse("root:questions"))
+    if question.resolve and not bool(edit):
+        # TODO: messages.info(request, "Pregunta ya resuelta")
+        return redirect(reverse("root:questions"))
+    if request.method == "POST":
+        form = CreateQuestionAnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.cleaned_data["answer"]
+            admin = form.cleaned_data["admin"]
+            question.update(
+                answer={
+                    "admin": admin,
+                    "text": answer,
+                },
+            )
+            return redirect(
+                reverse("root:question_details", args=[question.id]),
+            )
+        else:
+            return render(
+                request,
+                "root/questions/create_answer.html",
+                {"form": form, "edit": edit, "question": question},
+            )
+    else:
+        form = CreateQuestionAnswerForm(
+            admin=request.user.username,
+            question=question.content,
+        )
+        return render(
+            request,
+            "root/questions/create_answer.html",
+            {"form": form, "edit": edit, "question": question},
+        )
