@@ -7,6 +7,7 @@ app_name = "questions"
 urlpatterns = [
     path("", views.questions, name="questions"),
     path("create/", views.create, name="create"),
+    path("archive/", views.archive, name="archive"),
     path("delete/<int:question_id>/", views.delete, name="delete"),
     path(
         "create/answer/<int:question_id>/<str:edit>/",

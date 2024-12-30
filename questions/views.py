@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -139,3 +141,11 @@ def create_answer(request, question_id, edit):
             "root/questions/create_answer.html",
             {"form": form, "edit": edit, "question": question},
         )
+
+
+def archive(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        question_ids = data.get("question_ids", [])
+        Question.objects.filter(id__in=question_ids).update(archive=True)
+        return redirect(reverse("root:questions"))
