@@ -95,7 +95,7 @@ def delete(request, question_id):
         # TODO: messages.error(request, "Pregunta no encontrada")
         return redirect(reverse("questions:questions"))
     if question.author != request.user:
-        # TODO: messages.warning(request, "No tienes permisos para esta acción")
+        # TODO:messages.warning(request, "No tienes permisos para esta acción")
         return redirect(reverse("questions:questions"))
     question.delete()
     return redirect(reverse("questions:questions"))
