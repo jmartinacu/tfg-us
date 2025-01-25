@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from home.forms import ProfileForm
 from home.models import ProfileInformation
-from posts.models import Post
+from posts.models import Post, Tag
 from samer.bucket import delete_file, upload_file
 
 
@@ -14,6 +14,7 @@ def home_images(request):
     ).annotate(
         comments=Count("comments"),
     )
+    tags = Tag.objects.all()
     profile = ProfileInformation.objects.first()
     return render(
         request,
@@ -21,6 +22,7 @@ def home_images(request):
         {
             "posts": posts,
             "profile": profile,
+            "tags": tags,
         },
     )
 

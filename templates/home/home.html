@@ -3,6 +3,7 @@
 
 {% block head %}
     <link rel="stylesheet" href={% static "/css/home.css" %}>
+	<link rel="stylesheet" href={% static "/css/carousel.css" %}>
 {% endblock head %}
 
 {% block title %}SAMER{% endblock title %}
@@ -26,6 +27,17 @@
                 {% endfor %}
                 <a href="https://www.agssursevilla.org/" target="_blank" rel="noopener noreferrer" class="profile-link">{{profile.url}}</a>
 			</div>
+		</div>
+		<div class="carousel-container">
+    		<button class="carousel-button prev" onclick="carouselScrollLeft()">&#10094;</button>
+    		<div class="carousel-wrapper">
+        		<div class="carousel-images">
+					{% for tag in tags %}
+						<a href="{% url "home:home_tag" tag.id%}"><img src="{{tag.source.url}}" alt="{{tag.name}}"></a>
+					{% endfor %}
+        		</div>
+    		</div>
+    		<button class="carousel-button next" onclick="carouselScrollRight()">&#10095;</button>
 		</div>
         <div class="content-options">
             <h2><a href="{% url "home:home_images" %}">IMAGENES</a></h2>
