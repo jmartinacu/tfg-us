@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href={% static "images/samericon.png" %} type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href={% static "css/root/base.css" %}>
+    <script src={% static "javascript/messages.js" %}></script>
+    {% block head %}{% endblock head %}
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+    <header>
+        <div class="root-home">
+            <a href="{% url 'home:home_images' %}"><i class="material-icons">home</i></a>
+        </div>
+        <div class="root-panels">
+            <button><a href={% url "root:root" %}><h2>Publicaciones</h2></a></button>
+            <button><a href={% url "root:users" %}><h2>Usuarios</h2></a></button>
+            <button><a href={% url "root:tags" %}><h2>Etiquetas</h2></a></button>
+            <button><a href={% url "root:questions" %}><h2>Preguntas</h2></a></button>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+	{% if messages %}
+    	<ul class="messages">
+        	{% for message in messages %}
+				{% if message.tags == "info" %}
+            		<li class="info-msg message">
+						<i class="material-icons">info</i>
+						{{ message }}
+					</li>
+				{% elif message.tags == "success" %}
+            		<li class="success-msg message">
+						<i class="material-icons">check</i>
+						{{ message }}
+					</li>
+				{% elif message.tags == "warning" %}
+            		<li class="warning-msg message">
+						<i class="material-icons">warning</i>
+						{{ message }}
+					</li>
+				{% elif message.tags == "error" %}
+            		<li class="error-msg message">
+						<i class="material-icons">cancel</i>
+						{{ message }}
+					</li>
+				{% endif %}
+        	{% endfor %}
+    	</ul>
+	{% endif %}
+</body>
+</html>
