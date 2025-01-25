@@ -11,6 +11,11 @@ urlpatterns = [
         name="add_remove_like",
     ),
     path(
+        "tag/add/<objectid:tag_id>/",
+        views.add_post_to_tag,
+        name="add_posts_tag",
+    ),
+    path(
         "comment/remove/<int:post_id>/<int:comment_id>/",
         views.remove_comment,
         name="remove_comment",

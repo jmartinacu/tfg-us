@@ -1,8 +1,10 @@
+import json
+
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from posts.forms import CreateCommentForm
-from posts.models import Comment, Post
+from posts.models import Comment, Post, Tag
 
 
 def add_remove_like(request, post_id):
@@ -128,3 +130,20 @@ def remove_comment(request, post_id: str, comment_id: str):
             "form": comment_form,
         },
     )
+
+
+def add_post_to_tag(request, tag_id: str):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            post_ids = data.get("post_ids", [])
+            tag = Tag.objects.filter(id=tag_id).first()
+            if tag is None:
+                # TODO: messages.error(request, "Etiqueta no encontrada")
+                return redirect(reverse("root:tags"))
+            posts = Post.objects.filter(id__in=post_ids)
+            tag.posts.add(*posts)
+            return redirect(reverse("root:tag_details", args=[tag_id]))
+        except ValueError:
+            # TODO: messages.warning(request, "Invalid JSON data")
+            return redirect(reverse("root:tags"))
