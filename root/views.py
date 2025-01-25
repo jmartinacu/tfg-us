@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import connection
 from django.db.models import Count
 from django.shortcuts import render
@@ -25,4 +26,13 @@ def root(request):
         {
             "posts": posts,
         },
+    )
+
+
+def users(request):
+    users = User.objects.all()
+    return render(
+        request,
+        "root/users/users.html",
+        {"users": users},
     )
