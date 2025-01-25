@@ -80,3 +80,23 @@ def home_edit_profile(request):
                 "form": profile_form,
             },
         )
+
+
+def home_tag(request, tag_id: str):
+    tag = Tag.objects.filter(id=tag_id).first()
+    if tag is None:
+        return redirect(reverse("home:home_images"))
+    posts = tag.posts.annotate(
+        comments=Count("comments"),
+    )
+    tags = Tag.objects.all()
+    profile = ProfileInformation.objects.first()
+    return render(
+        request,
+        "home/home.html",
+        {
+            "profile": profile,
+            "posts": posts,
+            "tags": tags,
+        },
+    )
