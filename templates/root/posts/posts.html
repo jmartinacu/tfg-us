@@ -46,7 +46,7 @@
                         {{post.name}}
                     </td>
                     <td onclick="window.location.href='{% url 'root:post_details' post.id %}'">
-                        {{post.type}}
+                        {{post.post_type}}
                     </td>
                     <td onclick="window.location.href='{% url 'root:post_details' post.id %}'">
                         {{post.likes|length}}
