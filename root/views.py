@@ -3,7 +3,7 @@ from django.db import connection
 from django.db.models import Count
 from django.shortcuts import render
 
-from posts.models import Post
+from posts.models import Post, Tag
 
 
 def root(request):
@@ -35,4 +35,15 @@ def users(request):
         request,
         "root/users/users.html",
         {"users": users},
+    )
+
+
+def tags(request):
+    tags = Tag.objects.all()
+    return render(
+        request,
+        "root/tags/tags.html",
+        {
+            "tags": tags,
+        },
     )
