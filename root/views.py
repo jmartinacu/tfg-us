@@ -1,10 +1,13 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db import connection
 from django.db.models import Count
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from posts.models import Post, Tag
 from questions.models import Question
+from root.forms import StaffCreationForm
 
 
 def root(request):
@@ -57,5 +60,34 @@ def questions(request):
         "root/questions/questions.html",
         {
             "questions": questions,
+        },
+    )
+
+
+def create_admin(request):
+    if request.method == "POST":
+        form = StaffCreationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            users = User.objects.filter(username=username)
+            if users.exists():
+                # TODO: messages.warning(request, "El nombre de usuario ya existe")
+                return render(
+                    request,
+                    "root/users/create.html",
+                    {
+                        "form": form,
+                    },
+                )
+            user = form.save()
+            login(request, user)
+            return redirect(reverse("root:users"))
+    else:
+        form = StaffCreationForm()
+    return render(
+        request,
+        "root/users/create.html",
+        {
+            "form": form,
         },
     )

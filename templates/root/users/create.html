@@ -1,0 +1,53 @@
+{% extends "root/root.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href={% static "/css/login.css" %}>
+    <link rel="stylesheet" href={% static "/css/create_question.css" %}>
+{% endblock head %}
+
+{% block title %}CREATE ADMIN{% endblock title %}
+
+{% block content %}
+    <div class="container login-container">
+        <form method="post" action="{% url "root:create_admin" %}" class="form">
+            {% csrf_token %}
+            <div class="title">Administrador</div>
+            <div class="subtitle">Crea una cuenta de administrador</div>
+            <div class="input-container ic1">
+                {{form.username}}
+                <div class="cut"></div>
+                <label for="user" class="placeholder">Usuario</label>
+            </div>
+            <div class="input-container ic1">
+                {{form.email}}
+                <div class="cut"></div>
+                <label for="email" class="placeholder">Email</label>
+            </div>
+            <div class="input-container ic1">
+                {{form.first_name}}
+                <div class="cut"></div>
+                <label for="name" class="placeholder">Nombre</label>
+            </div>
+            <div class="input-container ic1">
+                {{form.second_name}}k
+                <div class="cut"></div>
+                <label for="surname" class="placeholder">Apellido</label>
+            </div>
+            <div class="input-container ic2">
+                {{form.password1}}
+                <div class="cut"></div>
+                <label for="pwd" class="placeholder">Contraseña</label>
+            </div>
+            <div class="input-container ic2">
+                {{form.password2}}
+                <div class="cut"></div>
+                <label for="pwd" class="placeholder">Repetir Contraseña</label>
+            </div>
+            {% for error in errors %}
+                <p>{{error}}</p>
+            {% endfor %}
+            <button type="submit" class="submit">Crea un admin</button>
+        </form>
+    </div>
+{% endblock content %}
