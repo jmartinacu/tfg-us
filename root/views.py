@@ -4,6 +4,7 @@ from django.db.models import Count
 from django.shortcuts import render
 
 from posts.models import Post, Tag
+from questions.models import Question
 
 
 def root(request):
@@ -45,5 +46,16 @@ def tags(request):
         "root/tags/tags.html",
         {
             "tags": tags,
+        },
+    )
+
+
+def questions(request):
+    questions = Question.objects.all()
+    return render(
+        request,
+        "root/questions/questions.html",
+        {
+            "questions": questions,
         },
     )
