@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.db import connection
 from django.db.models import Count
@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from posts.models import Post, Tag
 from questions.models import Question
-from root.forms import StaffCreationForm
+from root.forms import StaffCreationForm, UploadPost
 
 
 def root(request):
@@ -91,3 +91,58 @@ def create_admin(request):
             "form": form,
         },
     )
+
+
+def upload_post(request):
+    if request.method == "POST":
+        form = UploadPost(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                result = Post.objects.create(
+                    files=form.cleaned_data["file"],
+                    name=form.cleaned_data["name"],
+                    description=form.cleaned_data["des"],
+                )
+                return redirect(
+                    reverse(
+                        "root:post_details",
+                        kwargs={"post_id": result["id"]},
+                    )
+                )
+            except ValueError as e:
+                upload_post = render(
+                    request,
+                    "root/posts/create.html",
+                    {"form": form},
+                )
+                if str(e) == "DuplicateName":
+                    # TODO: messages.warning(
+                    #     request,
+                    #     "Ya hay una publicación con ese nombre",
+                    # )
+                    return upload_post
+                elif str(e) == "NoFiles":
+                    # TODO: messages.warning(
+                    #     request,
+                    #     "El archivo tiene que ser una imagen o video",
+                    # )
+                    return upload_post
+                elif str(e) == "IncorrectFiles":
+                    # TODO: messages.warning(
+                    #     request,
+                    #     "Solamente se puede subir un video por publicación",
+                    # )
+                    return upload_post
+        else:
+            return render(
+                request,
+                "root/posts/create.html",
+                {"form": form},
+            )
+    else:
+        form = UploadPost()
+        return render(
+            request,
+            "root/posts/create.html",
+            {"form": form},
+        )

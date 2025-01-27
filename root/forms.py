@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -20,3 +21,52 @@ class StaffCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = [single_file_clean(data, initial)]
+        return result
+
+
+class UploadPost(forms.Form):
+    file = MultipleFileField(
+        widget=MultipleFileInput(
+            attrs={
+                "class": "image-form",
+                "style": "display: none",
+            }
+        )
+    )
+    name = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "input name-form",
+                "id": "name",
+                "placeholder": " ",
+            }
+        ),
+    )
+    des = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "input description-form",
+                "id": "des",
+                "placeholder": " ",
+            }
+        ),
+    )
