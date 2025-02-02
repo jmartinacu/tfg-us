@@ -222,3 +222,19 @@ def delete_post(request, post_id):
         return redirect(reverse("root:root"))
     post.delete()
     return redirect(reverse("root:root"))
+
+
+def delete_user(request, user_id):
+    user = User.objects.filter(id=user_id).first()
+    if user is None:
+        # TODO: messages.error(request, "Usuario no encontrado")
+        return redirect(reverse("root:users"))
+    admins = User.objects.filter(is_staff=True)
+    if len(admins) == 1 and admins[0].id == user_id:
+        # TODO: messages.warning(
+        #     request,
+        #     "No se pueden eliminar todos los administradores",
+        # )
+        return redirect(reverse("root:users"))
+    user.delete()
+    return redirect(reverse("root:users"))
