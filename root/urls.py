@@ -31,4 +31,9 @@ urlpatterns = [
         views.delete_user,
         name="delete_user",
     ),
+    path(
+        "tag/delete/<objectid:tag_id>/",
+        views.delete_tag,
+        name="delete_tag",
+    ),
 ]

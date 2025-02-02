@@ -238,3 +238,12 @@ def delete_user(request, user_id):
         return redirect(reverse("root:users"))
     user.delete()
     return redirect(reverse("root:users"))
+
+
+def delete_tag(request, tag_id):
+    tag = Tag.objects.filter(id=tag_id).first()
+    if tag is None:
+        # TODO: messages.error(request, "Etiqueta no encontrado")
+        return redirect(reverse("root:tags"))
+    tag.delete()
+    return redirect(reverse("root:tags"))
