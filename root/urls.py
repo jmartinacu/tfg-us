@@ -16,4 +16,9 @@ urlpatterns = [
         views.tag_action,
         name="tag_action",
     ),
+    path(
+        "actions/delete/<str:model>/",
+        views.delete_action,
+        name="delete_action",
+    ),
 ]

@@ -1,3 +1,6 @@
+import json
+
+from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.db import connection
@@ -180,4 +183,33 @@ def tag_action(request):
             },
         )
     else:
+        return redirect(reverse("root:root"))
+
+
+def delete_action(request, model):
+    if request.method == "POST":
+        referrer_url = request.META.get("HTTP_REFERER", "/")
+        if model not in settings.AUTH_ACTION_MODELS:
+            # TODO: messages.error(request, "Acción no permitida")
+            return redirect(referrer_url)
+        data = json.loads(request.body)
+        ids = data.get("delete_ids", [])
+        if model == "User":
+            if request.user.id in ids:
+                # TODO: messages.warning(
+                #     request,
+                #     "No puedes borrar al usuario que realiza la acción",
+                # )
+                return redirect(referrer_url)
+            User.objects.filter(id__in=ids).delete()
+        elif model == "Post":
+            Post.objects.filter(id__in=ids).delete()
+        elif model == "Tag":
+            Tag.objects.filter(id__in=ids).delete()
+        elif model == "Question":
+            Question.objects.filter(id__in=ids).delete()
+        # TODO: messages.success(request, "Acción completada")
+        return redirect(referrer_url)
+    else:
+        # TODO: messages.warning(request, "Acción incorrecta")
         return redirect(reverse("root:root"))
