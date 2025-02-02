@@ -21,4 +21,9 @@ urlpatterns = [
         views.delete_action,
         name="delete_action",
     ),
+    path(
+        "post/delete/<objectid:post_id>/",
+        views.delete_post,
+        name="delete_post",
+    ),
 ]

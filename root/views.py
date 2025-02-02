@@ -213,3 +213,12 @@ def delete_action(request, model):
     else:
         # TODO: messages.warning(request, "Acción incorrecta")
         return redirect(reverse("root:root"))
+
+
+def delete_post(request, post_id):
+    post = Post.objects.filter(id=post_id).first()
+    if post is None:
+        # TODO: messages.error(request, "Publicación no encontrada")
+        return redirect(reverse("root:root"))
+    post.delete()
+    return redirect(reverse("root:root"))
