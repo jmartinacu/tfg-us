@@ -70,3 +70,32 @@ class UploadPost(forms.Form):
             }
         ),
     )
+
+
+class CreateTag(forms.Form):
+    file = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                "class": "image-form",
+                "style": "display: none",
+            }
+        )
+    )
+    name = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "input name-form",
+                "id": "name",
+                "placeholder": " ",
+            }
+        ),
+    )
+
+    ids = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput(
+            attrs={
+                "id": "ids",
+            }
+        ),
+    )

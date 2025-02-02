@@ -69,10 +69,14 @@ class Source(models.Model):
     def __init__(self, *args, **kwargs):
         file = kwargs.get("file", None)
         file_bytes = kwargs.get("file_bytes", None)
-        if file is None:
+        src_type = kwargs.get("type", "post")
+        if file is None or file_bytes is None:
             raise ValueError("NoFile")
         full_file_name = str(file.name)
         file_name, ext = path.splitext(full_file_name)
+        check_name = Source.objects.filter(name=file_name)
+        if check_name.exists():
+            raise ValueError("DuplicateName")
         file_type = (
             FilesTypes.IMAGE
             if self.is_image(
@@ -80,11 +84,16 @@ class Source(models.Model):
             )
             else FilesTypes.VIDEO
         )
-        object_name = (
-            f"imagenes/{full_file_name}"
-            if file_type == FilesTypes.IMAGE
-            else f"videos/{full_file_name}"
-        )
+        if src_type == "tag":
+            if file_type == FilesTypes.VIDEO:
+                raise ValueError("FileError")
+            object_name = f"tags/{full_file_name}"
+        else:
+            object_name = (
+                f"imagenes/{full_file_name}"
+                if file_type == FilesTypes.IMAGE
+                else f"videos/{full_file_name}"
+            )
         uploaded_file_url = upload_file(
             file,
             object_name=object_name,
@@ -131,8 +140,8 @@ class Post(models.Model):
             full_file_name = str(files[0].name)
             file_name, _ext = path.splitext(full_file_name)
             kwargs["name"] = file_name
-        check_source_name = Source.objects.filter(name=name)
-        if check_source_name.exists():
+        check_name = Post.objects.filter(name=name)
+        if check_name.exists():
             raise ValueError("DuplicateName")
         sources: list[Source] = []
         for file in files:
@@ -145,7 +154,7 @@ class Post(models.Model):
         ) > 1 and not all(s.type != FilesTypes.IMAGE for s in sources):
             for src in sources:
                 src.delete()
-            raise ValueError("IncorrectFiles")
+            raise ValueError("FilesError")
         sources = Source.objects.bulk_create(sources)
         kwargs["sources"] = sources
         kwargs["post_type"] = sources[0].type
@@ -180,6 +189,14 @@ class Tag(models.Model):
         on_delete=models.CASCADE,
         related_name="tag",
     )
+
+    def create(self, *args, **kwargs):
+        file = kwargs.get("file", None)
+        post_bytes = file.read()
+        file.seek(0)
+        src = Source(file=file, file_bytes=post_bytes, src_type="tag").save()
+        kwargs["source"] = src
+        super().create(*args, **kwargs)
 
     def __str__(self):
         return self.name

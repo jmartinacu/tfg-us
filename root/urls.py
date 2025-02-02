@@ -11,4 +11,9 @@ urlpatterns = [
     path("questions/", views.questions, name="questions"),
     path("users/admin/", views.create_admin, name="create_admin"),
     path("post/upload/", views.upload_post, name="upload_post"),
+    path(
+        "actions/tag/",
+        views.tag_action,
+        name="tag_action",
+    ),
 ]

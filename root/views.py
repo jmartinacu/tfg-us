@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from posts.models import Post, Tag
 from questions.models import Question
-from root.forms import StaffCreationForm, UploadPost
+from root.forms import CreateTag, StaffCreationForm, UploadPost
 
 
 def root(request):
@@ -127,7 +127,7 @@ def upload_post(request):
                     #     "El archivo tiene que ser una imagen o video",
                     # )
                     return upload_post
-                elif str(e) == "IncorrectFiles":
+                elif str(e) == "FilesError":
                     # TODO: messages.warning(
                     #     request,
                     #     "Solamente se puede subir un video por publicación",
@@ -146,3 +146,38 @@ def upload_post(request):
             "root/posts/create.html",
             {"form": form},
         )
+
+
+def tag_action(request):
+    if request.method == "POST" and "file" in request.FILES:
+        form = CreateTag(request.POST, request.FILES)
+        if form.is_valid():
+            name: str = form.cleaned_data["name"]
+            ids: str = form.cleaned_data["ids"]
+            file = form.cleaned_data["file"]
+            posts = Post.objects.filter(id__in=ids.split(","))
+            Tag.create(
+                name=name,
+                file=file,
+                posts=posts,
+            )
+            return redirect(reverse("root:root"))
+        return redirect("root:root")
+    elif request.method == "GET":
+        post_ids = request.GET.get("post_ids", [])
+        post_ids = post_ids.split(",")
+        posts = Post.objects.filter(id__in=post_ids)
+        form = CreateTag(
+            ids=",".join(post.id for post in posts),
+            init=True,
+        )
+        return render(
+            request,
+            "root/tags/create.html",
+            {
+                "form": form,
+                "posts": posts,
+            },
+        )
+    else:
+        return redirect(reverse("root:root"))
