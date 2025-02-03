@@ -385,3 +385,15 @@ def tag_details(request, tag_id):
         "root/tags/tag.html",
         {"tag": tag, "posts_json": serialize("json", tag.posts.all())},
     )
+
+
+def question_details(request, question_id):
+    question = Question.objects.filter(id=question_id).first()
+    if question is None:
+        # TODO: messages.error(request, "Pregunta no encontrado")
+        return redirect(reverse("root:questions"))
+    return render(
+        request,
+        "root/questions/question.html",
+        {"question": question},
+    )

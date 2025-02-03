@@ -24,4 +24,9 @@ urlpatterns = [
     path("post/<int:post_id>/", views.post_details, name="post_details"),
     path("user/<int:user_id>/", views.user_details, name="user_details"),
     path("tag/<int:tag_id>/", views.tag_details, name="tag_details"),
+    path(
+        "question/<int:question_id>/",
+        views.question_details,
+        name="question_details",
+    ),
 ]
