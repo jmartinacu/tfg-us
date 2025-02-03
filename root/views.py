@@ -390,10 +390,21 @@ def tag_details(request, tag_id):
 def question_details(request, question_id):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
-        # TODO: messages.error(request, "Pregunta no encontrado")
+        # TODO: messages.error(request, "Pregunta no encontrada")
         return redirect(reverse("root:questions"))
     return render(
         request,
         "root/questions/question.html",
         {"question": question},
+    )
+
+
+def remove_question(request, user_id: str, question_id: str):
+    question = Question.objects.filter(id=question_id).first()
+    if question is None:
+        # TODO: messages.error(request, "Pregunta no encontrada")
+        return redirect(reverse("questions:questions"))
+    question.delete()
+    return redirect(
+        f"{reverse('root:user_details', args=[user_id])}?content=questions",
     )

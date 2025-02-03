@@ -29,4 +29,9 @@ urlpatterns = [
         views.question_details,
         name="question_details",
     ),
+    path(
+        "user/<int:user_id>/<int:question_id>/",
+        views.remove_question,
+        name="remove_question",
+    ),
 ]
