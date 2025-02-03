@@ -3,6 +3,7 @@ import json
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.models import User
+from django.core.serializers import serialize
 from django.db import connection
 from django.db.models import Count
 from django.shortcuts import redirect, render
@@ -371,4 +372,16 @@ def user_details(request, user_id):
             "questions": questions,
             "content": content,
         },
+    )
+
+
+def tag_details(request, tag_id):
+    tag = Tag.objects.filter(id=tag_id).first()
+    if tag is None:
+        # TODO: messages.error(request, "Etiqueta no encontrado")
+        return redirect(reverse("root:tags"))
+    return render(
+        request,
+        "root/tags/tag.html",
+        {"tag": tag, "posts_json": serialize("json", tag.posts.all())},
     )
