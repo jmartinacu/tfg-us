@@ -136,6 +136,12 @@ def upload_post(request):
                     #     "Solamente se puede subir un video por publicación",
                     # )
                     return upload_post
+                elif str(e) == "HttpError":
+                    # TODO: messages.warning(
+                    #     request,
+                    #     "El archivo tiene que ser una imagen o video",
+                    # )
+                    return upload_post
         else:
             return render(
                 request,
@@ -294,8 +300,12 @@ def edit_post(request, post_id):
                     #     "Solamente se puede subir un video por publicación",
                     # )
                     return render_edit
-                else:
-                    return redirect(reverse("root:root"))
+                elif str(e) == "HttpError":
+                    # TODO: messages.warning(
+                    #     request,
+                    #     "El archivo tiene que ser una imagen o video",
+                    # )
+                    return render_edit
             return redirect(
                 reverse(
                     "root:post_details",
@@ -321,3 +331,17 @@ def edit_post(request, post_id):
                 "post": post,
             },
         )
+
+
+def post_details(request, post_id):
+    post = Post.objects.filter(id=post_id).first()
+    if post is None:
+        # TODO: messages.error(request, "Publicación no encontrada")
+        return redirect(reverse("root:root"))
+    return render(
+        request,
+        "root/posts/post.html",
+        {
+            "post": post,
+        },
+    )

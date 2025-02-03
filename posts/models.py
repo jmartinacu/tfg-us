@@ -1,6 +1,7 @@
 import tempfile
 from io import BytesIO
 from os import path
+from urllib.error import HTTPError
 
 import imageio
 import magic
@@ -27,9 +28,9 @@ class Source(models.Model):
         choices=FilesTypes.choices,
     )
     extension = models.CharField(max_length=255)
+    mime_type = models.CharField(max_length=255)
 
     def get_mime_type(self):
-        result = None
         response = requests.get(self.url, stream=True, timeout=10)
         response.raise_for_status()
         mime = magic.Magic(mime=True)
@@ -98,6 +99,10 @@ class Source(models.Model):
             file,
             object_name=object_name,
         )
+        try:
+            mime_type = self.get_mime_type()
+        except HTTPError:
+            raise ValueError("HttpError")
         thumbnail_url = None
         if file_type == FilesTypes.VIDEO:
             thumbnail_url = upload_thumbnail(0, uploaded_file_url)
@@ -106,6 +111,7 @@ class Source(models.Model):
         kwargs["type"] = file_type
         kwargs["thumbnail_url"] = thumbnail_url
         kwargs["extension"] = ext
+        kwargs["mime_type"] = mime_type
         super().__init__(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
