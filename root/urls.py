@@ -22,4 +22,5 @@ urlpatterns = [
     path("tag/delete/<int:tag_id>/", views.delete_tag, name="delete_tag"),
     path("post/edit/<int:post_id>/", views.edit_post, name="edit_post"),
     path("post/<int:post_id>/", views.post_details, name="post_details"),
+    path("user/<int:user_id>/", views.user_details, name="user_details"),
 ]

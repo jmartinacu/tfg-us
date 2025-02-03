@@ -8,7 +8,7 @@ from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from posts.models import Post, Tag
+from posts.models import Comment, Post, Tag
 from questions.models import Question
 from root.forms import CreateTag, EditPost, StaffCreationForm, UploadPost
 
@@ -343,5 +343,32 @@ def post_details(request, post_id):
         "root/posts/post.html",
         {
             "post": post,
+        },
+    )
+
+
+def user_details(request, user_id):
+    user = User.objects.filter(id=user_id).first()
+    if user is None:
+        # TODO: messages.error(request, "Usuario no encontrado")
+        return redirect(reverse("root:users"))
+    content = request.GET.get("content", "comments")
+    comments = None
+    questions = None
+    if content == "comments":
+        comments = Comment.objects.filter(author=user)
+    elif content == "questions":
+        questions = Question.objects.filter(author=user)
+    else:
+        # TODO: messages.error(request, f"Opción {content} no es valida")
+        return redirect(reverse("root:user_details", args=[user_id]))
+    return render(
+        request,
+        "root/users/user.html",
+        {
+            "user_detail": user,
+            "comments": comments,
+            "questions": questions,
+            "content": content,
         },
     )

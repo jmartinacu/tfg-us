@@ -1,0 +1,119 @@
+{% extends "root/root.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href={% static "css/root/posts.css" %}>
+    <link rel="stylesheet" href={% static "css/root/user.css" %}>
+{% endblock head %}
+
+{% block title %}USERS{% endblock title %}
+
+{% block content %}
+    {% if user_detail.is_staff %}
+        <h3 class="admin-info">Administrador</h3>
+    {% endif %}
+    <div class="root-user-header">
+        {% if user_detail.is_staff %}
+            <div class="root-user-info">
+                <div>
+                    <h4>Usuario: </h4>
+                    <p>{{user_detail.username}}</p>
+                    <h4>Email: </h4>
+                    <p>{{user_detail.email}}</p>
+                </div>
+                <div>
+                    <h4>Nombre:</h4>
+                    <p>{{user_detail.first_name}}</p>
+                    <h4>Apellido:</h4>
+                    <p>{{user_detail.last_name}}</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="root-user-info">
+                <div>
+                    <h4>Usuario: </h4>
+                    <p>{{user_detail.username}}</p>
+                </div>
+            </div>
+        {% endif %}
+        <div class="dropdown">
+            {% if content == "questions" %}
+                <button class="dropbtn search-criteria" onmouseover="showOptions()">Preguntas</button>
+            {% else %}
+                <button class="dropbtn search-criteria" onmouseover="showOptions()">Comentarios</button>
+            {% endif %}
+            <div class="dropdown-content"></div>
+        </div>
+        <div>
+            <a href="{% url "root:delete_user" user_detail.id %}">
+                <button class="delete-button">Eliminar</button>
+            </a>
+        </div>
+    </div>
+    <div class="root-user-content">
+        {% if content == "questions" and questions|length > 0 %}
+            <table class="posts-table">
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Resuelta</th>
+                        <th>Me gustas</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in questions %}
+                        <tr>
+                            <td onclick="window.location.href='{% url 'root:question_details' question.id %}'">
+                                {{question.title}}
+                            </td>
+                            <td onclick="window.location.href='{% url 'root:question_details' question.id %}'">
+                                {% if question.resolve %}
+                                Si
+                                {% else %}
+                                No
+                                {% endif %}
+                            </td>
+                            <td onclick="window.location.href='{% url 'root:question_details' question.id %}'">
+                                {{question.likes|length}}
+                            </td>
+                            <td>
+                                <a href="{% url "root:remove_question" user_detail.id question.id %}"><i class="material-icons">delete</i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% elif content == "comments" and comments|length > 0 %}
+            <table class="posts-table">
+                <thead>
+                    <tr>
+                        <th>Publicación</th>
+                        <th>Comentario</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in comments %}
+                        <tr>
+                            <td>
+                                {{comment.post.name}}
+                            </td>
+                            <td>
+                                {{comment.text}}
+                            </td>
+                            <td>
+                                <a href="{% url "root:remove_comment" user_detail.id comment.post.id comment.id %}"><i class="material-icons">delete</i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% elif content == "comments" %}
+            <h4>No hay comentarios</h4>
+        {% else %}
+            <h4>No hay preguntas</h4>
+        {% endif %}
+    </div>
+    <script src={% static "javascript/user.js" %}></script>
+{% endblock content %}
