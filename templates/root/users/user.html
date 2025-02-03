@@ -103,7 +103,7 @@
                                 {{comment.text}}
                             </td>
                             <td>
-                                <a href="{% url "root:remove_comment" user_detail.id comment.post.id comment.id %}"><i class="material-icons">delete</i></a>
+                                <a href="{% url "root:remove_comment" user_detail.id comment.id %}"><i class="material-icons">delete</i></a>
                             </td>
                         </tr>
                     {% endfor %}

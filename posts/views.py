@@ -96,7 +96,7 @@ def comments(request, post_id, post_type):
     )
 
 
-def remove_comment(request, post_id: str, comment_id: str):
+def remove_comment(request, post_id: int, comment_id: int):
     post = Post.objects.filter(id=post_id).first()
     if post is None:
         # TODO: messages.error(request, "Publicación no encontrada")

@@ -399,7 +399,7 @@ def question_details(request, question_id):
     )
 
 
-def remove_question(request, user_id: str, question_id: str):
+def remove_question(request, user_id: int, question_id: int):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
         # TODO: messages.error(request, "Pregunta no encontrada")
@@ -408,3 +408,12 @@ def remove_question(request, user_id: str, question_id: str):
     return redirect(
         f"{reverse('root:user_details', args=[user_id])}?content=questions",
     )
+
+
+def remove_comment(request, user_id: int, comment_id: int):
+    comment = Comment.objects.filter(id=comment_id).first()
+    if comment is None:
+        # TODO: messages.error(request, "Comentario no encontrado")
+        return redirect(reverse("root:user_details", args=[user_id]))
+    comment.delete()
+    return redirect(reverse("root:user_details", args=[user_id]))
