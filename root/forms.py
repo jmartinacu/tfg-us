@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from posts.models import Post
+
 
 class StaffCreationForm(UserCreationForm):
     class Meta:
@@ -99,3 +101,41 @@ class CreateTag(forms.Form):
             }
         ),
     )
+
+
+class EditPost(forms.Form):
+    file = MultipleFileField(
+        required=False,
+        widget=MultipleFileInput(
+            attrs={
+                "class": "image-form",
+                "style": "display: none",
+            }
+        ),
+    )
+    name = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "input name-form",
+                "id": "name",
+                "placeholder": " ",
+            }
+        ),
+    )
+    des = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "input description-form",
+                "id": "des",
+            }
+        ),
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        post: Post = kwargs.pop("post", None)
+        super().__init__(*args, **kwargs)
+        if post is not None:
+            self.fields["des"].initial = post["description"]
+            self.fields["name"].initial = post["name"]
