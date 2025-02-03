@@ -10,7 +10,7 @@ from django.urls import reverse
 
 from posts.models import Post, Tag
 from questions.models import Question
-from root.forms import CreateTag, StaffCreationForm, UploadPost
+from root.forms import CreateTag, EditPost, StaffCreationForm, UploadPost
 
 
 def root(request):
@@ -247,3 +247,77 @@ def delete_tag(request, tag_id):
         return redirect(reverse("root:tags"))
     tag.delete()
     return redirect(reverse("root:tags"))
+
+
+def edit_post(request, post_id):
+    post = Post.objects.filter(id=post_id).first()
+    if post is None:
+        # TODO: messages.error(request, "Publicación no encontrada")
+        return redirect(reverse("root:root"))
+    if request.method == "POST":
+        form = EditPost(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                if "file" in request.FILES:
+                    files = form.cleaned_data["file"]
+                    post.sources.all().delete()
+                    sources = Post.create_sources(files)
+                    post.sources.add(*sources)
+                post.name = form.cleaned_data["name"]
+                post.description = form.cleaned_data["des"]
+                post.save()
+            except ValueError as e:
+                form = EditPost(post=post)
+                render_edit = render(
+                    request,
+                    "root/posts/edit.html",
+                    {
+                        "form": form,
+                        "post": post,
+                    },
+                )
+                if str(e) == "DuplicateName":
+                    # TODO: messages.warning(
+                    #     request,
+                    #     "Ya hay una publicación con ese nombre",
+                    # )
+                    return render_edit
+                elif str(e) == "NoFiles":
+                    # TODO: messages.warning(
+                    #     request,
+                    #     "El archivo tiene que ser una imagen o video",
+                    # )
+                    return render_edit
+                elif str(e) == "FilesError":
+                    # TODO: messages.warning(
+                    #     request,
+                    #     "Solamente se puede subir un video por publicación",
+                    # )
+                    return render_edit
+                else:
+                    return redirect(reverse("root:root"))
+            return redirect(
+                reverse(
+                    "root:post_details",
+                    kwargs={"post_id": post_id},
+                )
+            )
+        else:
+            return render(
+                request,
+                "root/posts/edit.html",
+                {
+                    "form": form,
+                    "post": post,
+                },
+            )
+    else:
+        form = EditPost(post=post)
+        return render(
+            request,
+            "root/posts/edit.html",
+            {
+                "form": form,
+                "post": post,
+            },
+        )

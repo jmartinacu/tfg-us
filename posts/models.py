@@ -131,18 +131,8 @@ class Post(models.Model):
         related_name="post",
     )
 
-    def create(self, *args, **kwargs):
-        files = kwargs.get("files", None)
-        name = kwargs.get("name", None)
-        if files is None:
-            raise ValueError("NoFiles")
-        if name is None:
-            full_file_name = str(files[0].name)
-            file_name, _ext = path.splitext(full_file_name)
-            kwargs["name"] = file_name
-        check_name = Post.objects.filter(name=name)
-        if check_name.exists():
-            raise ValueError("DuplicateName")
+    @classmethod
+    def create_sources(cls, files):
         sources: list[Source] = []
         for file in files:
             post_bytes = file.read()
@@ -155,8 +145,21 @@ class Post(models.Model):
             for src in sources:
                 src.delete()
             raise ValueError("FilesError")
-        sources = Source.objects.bulk_create(sources)
-        kwargs["sources"] = sources
+        return Source.objects.bulk_create(sources)
+
+    def create(self, *args, **kwargs):
+        files = kwargs.get("files", None)
+        name = kwargs.get("name", None)
+        if files is None:
+            raise ValueError("NoFiles")
+        if name is None:
+            full_file_name = str(files[0].name)
+            file_name, _ext = path.splitext(full_file_name)
+            kwargs["name"] = file_name
+        check_name = Post.objects.filter(name=name)
+        if check_name.exists():
+            raise ValueError("DuplicateName")
+        sources = self.create_sources(files)
         kwargs["post_type"] = sources[0].type
         super().create(*args, **kwargs)
 

@@ -36,4 +36,9 @@ urlpatterns = [
         views.delete_tag,
         name="delete_tag",
     ),
+    path(
+        "post/edit/<objectid:post_id>/",
+        views.edit_post,
+        name="edit_post",
+    ),
 ]
