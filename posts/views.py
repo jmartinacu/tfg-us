@@ -1,5 +1,7 @@
 import json
 
+from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -16,23 +18,23 @@ def add_remove_like(request, post_id):
     redirect_view = request.GET.get("redirect", "home:home_images")
     post_type = None
     # if redirect_view not in allows_redirects:
-    # TODO: ADD messages.error(request, f"Redirección {redirect_view} no permitida")
+    messages.error(request, f"Redirección {redirect_view} no permitida")
     if redirect_view == "posts:comment":
         post_type: str = request.GET.get("type", "")
         if post_type == "" or post_type not in ["image", "video"]:
-            # TODO: ADD messages.error(request, "Tipo de publicación incorrecto")
+            messages.error(request, "Tipo de publicación incorrecto")
             return redirect(reverse("home:home_images"))
     post = Post.objects.filter(id=post_id).first()
     if post is None:
-        # TODO: messages.error(request, "Publicación no encontrada")
+        messages.error(request, "Publicación no encontrada")
         if post_type:
             return redirect(reverse(redirect_view, args=[post_id, post_type]))
         return redirect(reverse(redirect_view))
     if not request.user.is_authenticated:
-        # TODO: ADD messages.warning(
-        #     request,
-        #     "Tienes tener una cuenta para dar un me gusta",
-        # )
+        messages.warning(
+            request,
+            "Tienes tener una cuenta para dar un me gusta",
+        )
         if post_type:
             return redirect(reverse(redirect_view, args=[post_id, post_type]))
         return redirect(reverse(redirect_view))
@@ -52,21 +54,21 @@ def comments(request, post_id, post_type):
     elif post_type == "VD":
         template = "posts/video.html"
     else:
-        # TODO: messages.error(request, "Tipo de publicación incorrecto")
+        messages.error(request, "Tipo de publicación incorrecto")
         return redirect(reverse("home:home_images"))
     post = Post.objects.filter(id=post_id).first()
     if post is None:
-        # TODO: messages.error(request, "Publicación no encontrada")
+        messages.error(request, "Publicación no encontrada")
         if post_type == "VD":
             return redirect(reverse("home:home_videos"))
         else:
             return redirect(reverse("home:home_images"))
     if request.method == "POST":
         if not request.user.is_authenticated:
-            # TODO: messages.error(
-            #     request,
-            #     "Hay que tener una sesión creada e iniciada",
-            # )
+            messages.error(
+                request,
+                "Hay que tener una sesión creada e iniciada",
+            )
             return redirect(
                 reverse(
                     "posts:comment",
@@ -99,17 +101,17 @@ def comments(request, post_id, post_type):
 def remove_comment(request, post_id: int, comment_id: int):
     post = Post.objects.filter(id=post_id).first()
     if post is None:
-        # TODO: messages.error(request, "Publicación no encontrada")
+        messages.error(request, "Publicación no encontrada")
         return redirect(reverse("home:home_videos"))
     post_type = post.post_type
     comment = Comment.objects.filter(id=comment_id).first()
     if comment is None:
-        # TODO: messages.error(request, "Comentario no encontrado")
+        messages.error(request, "Comentario no encontrado")
         return redirect(
             reverse("posts:comment", args=[post_id, post_type]),
         )
     if not comment.author == request.user:
-        # TODO: messages.error(request, "El comentario no puede ser eliminado")
+        messages.error(request, "El comentario no puede ser eliminado")
         return redirect(
             reverse("posts:comment", args=[post_id, post_type]),
         )
@@ -139,11 +141,19 @@ def add_post_to_tag(request, tag_id: str):
             post_ids = data.get("post_ids", [])
             tag = Tag.objects.filter(id=tag_id).first()
             if tag is None:
-                # TODO: messages.error(request, "Etiqueta no encontrada")
+                messages.error(request, "Etiqueta no encontrada")
                 return redirect(reverse("root:tags"))
             posts = Post.objects.filter(id__in=post_ids)
             tag.posts.add(*posts)
             return redirect(reverse("root:tag_details", args=[tag_id]))
         except ValueError:
-            # TODO: messages.warning(request, "Invalid JSON data")
+            messages.warning(request, "Invalid JSON data")
             return redirect(reverse("root:tags"))
+
+
+def search_posts(request):
+    post_name = request.GET.get("post_name", "")
+    if post_name == "":
+        return JsonResponse([], safe=False)
+    posts = list(Post.objects.filter(name__icontains=post_name))
+    return JsonResponse(posts, safe=False)

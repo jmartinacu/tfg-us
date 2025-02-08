@@ -10,8 +10,9 @@ urlpatterns = [
         views.add_remove_like,
         name="add_remove_like",
     ),
+    path("search/", views.search_posts, name="search_posts"),
     path(
-        "tag/add/<objectid:tag_id>/",
+        "tag/add/<int:tag_id>/",
         views.add_post_to_tag,
         name="add_posts_tag",
     ),
