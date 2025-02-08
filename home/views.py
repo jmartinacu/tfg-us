@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.db.models import Count
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -80,6 +82,25 @@ def home_edit_profile(request):
                 "form": profile_form,
             },
         )
+
+
+def add_message(request):
+    level_msg = request.GET.get("level", "info")
+    message = request.GET.get("message", "")
+    if message == "":
+        return JsonResponse(
+            {"status": "error", "msg": "Message mandatory"},
+            status=400,
+        )
+    level = messages.INFO
+    if level_msg == "success":
+        level = messages.SUCCESS
+    if level_msg == "warning":
+        level = messages.WARNING
+    if level_msg == "error":
+        level = messages.ERROR
+    messages.add_message(request, level, message)
+    return JsonResponse({"status": "ok"})
 
 
 def home_tag(request, tag_id: str):

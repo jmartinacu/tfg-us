@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import redirect, render
@@ -12,7 +13,7 @@ def login_view(request):
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             if user is None:
-                # TODO: add error message
+                messages.error(request, "Usuario no encontrado")
                 return render(request, "users/login.html", {"form": form})
             login(request, user)
             return redirect(reverse("home:home_images"))

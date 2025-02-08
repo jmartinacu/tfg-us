@@ -24,6 +24,7 @@
             <label for="password" class="placeholder">Contraseña</label>
         </div>
         <button type="submit" class="submit">Inicia sesión</button>
+        <a href="{% url "users:register" %}" class="signin-form">¿No tienes cuenta?</a>
     </form>
     {% if form.errors %}
         <div style="color: red;">

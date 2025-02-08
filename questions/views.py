@@ -1,5 +1,6 @@
 import json
 
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -33,10 +34,10 @@ def questions(request):
 def question(request, question_id):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
-        # TODO: messages.error(
-        #     request,
-        #     "Pregunta no encontrada",
-        # )
+        messages.error(
+            request,
+            "Pregunta no encontrada",
+        )
         return redirect(reverse("questions:questions"))
     if request.user.is_authenticated and request.user in question.views.all():
         question.views.add(request.user)
@@ -45,10 +46,10 @@ def question(request, question_id):
 
 def create(request):
     if not request.user.is_authenticated:
-        # TODO: messages.warning(
-        #     request,
-        #     "Tienes tener una cuenta para crear una pregunta",
-        # )
+        messages.warning(
+            request,
+            "Tienes tener una cuenta para crear una pregunta",
+        )
         return redirect(reverse("users:login"))
     if request.method == "POST":
         form = CreateQuestionForm(request.POST)
@@ -64,10 +65,10 @@ def create(request):
                 archive=False,
             )
             if len(unresolved_questions) > 0:
-                # TODO: messages.warning(
-                #     request,
-                #     "No se puede crear una nueva pregunta, ya hay una en curso",  # noqa
-                # )
+                messages.warning(
+                    request,
+                    "No se puede crear una nueva pregunta, ya hay una en curso",  # noqa
+                )
                 return redirect(reverse("questions:questions"))
             Question.objects.create(
                 title=title, content=content, author=author, tags=tags
@@ -88,14 +89,14 @@ def create(request):
 
 def delete(request, question_id):
     if not request.user.is_authenticated:
-        # TODO: messages.warning(request, "Necesitas tener una sesión")
+        messages.warning(request, "Necesitas tener una sesión")
         return redirect(reverse("users:login"))
     question = Question.objects.filter(id=question_id).first()
     if question is None:
-        # TODO: messages.error(request, "Pregunta no encontrada")
+        messages.error(request, "Pregunta no encontrada")
         return redirect(reverse("questions:questions"))
     if question.author != request.user:
-        # TODO:messages.warning(request, "No tienes permisos para esta acción")
+        messages.warning(request, "No tienes permisos para esta acción")
         return redirect(reverse("questions:questions"))
     question.delete()
     return redirect(reverse("questions:questions"))
@@ -103,11 +104,11 @@ def delete(request, question_id):
 
 def add_remove_like(request, question_id):
     if not request.user.is_authenticated:
-        # TODO: messages.warning(request, "Necesitas tener una sesión")
+        messages.warning(request, "Necesitas tener una sesión")
         return redirect(reverse("users:login"))
     question = Question.objects.filter(id=question_id).first()
     if question is None:
-        # TODO: messages.error(request, "Pregunta no encontrada")
+        messages.error(request, "Pregunta no encontrada")
         return redirect(reverse("questions:questions"))
     if question.likes.filter(id=request.user.id).exists:
         question.likes.remove(request.user)
@@ -119,10 +120,10 @@ def add_remove_like(request, question_id):
 def create_answer(request, question_id, edit):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
-        # TODO: messages.error(request, "Pregunta no encontrada")
+        messages.error(request, "Pregunta no encontrada")
         return redirect(reverse("root:questions"))
     if question.resolve and not bool(edit):
-        # TODO: messages.info(request, "Pregunta ya resuelta")
+        messages.info(request, "Pregunta ya resuelta")
         return redirect(reverse("root:questions"))
     if request.method == "POST":
         form = CreateQuestionAnswerForm(request.POST)
@@ -159,7 +160,7 @@ def create_answer(request, question_id, edit):
 def delete_root(request, question_id):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
-        #  TODO:messages.error(request, "Pregunta no encontrada")
+        messages.error(request, "Pregunta no encontrada")
         return redirect(reverse("root:questions"))
     question.delete()
     return redirect(reverse("root:questions"))

@@ -1,6 +1,7 @@
 import json
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.core.serializers import serialize
@@ -75,7 +76,7 @@ def create_admin(request):
             username = form.cleaned_data["username"]
             users = User.objects.filter(username=username)
             if users.exists():
-                # TODO: messages.warning(request, "El nombre de usuario ya existe")
+                messages.warning(request, "El nombre de usuario ya existe")
                 return render(
                     request,
                     "root/users/create.html",
@@ -120,28 +121,28 @@ def upload_post(request):
                     {"form": form},
                 )
                 if str(e) == "DuplicateName":
-                    # TODO: messages.warning(
-                    #     request,
-                    #     "Ya hay una publicación con ese nombre",
-                    # )
+                    messages.warning(
+                        request,
+                        "Ya hay una publicación con ese nombre",
+                    )
                     return upload_post
                 elif str(e) == "NoFiles":
-                    # TODO: messages.warning(
-                    #     request,
-                    #     "El archivo tiene que ser una imagen o video",
-                    # )
+                    messages.warning(
+                        request,
+                        "El archivo tiene que ser una imagen o video",
+                    )
                     return upload_post
                 elif str(e) == "FilesError":
-                    # TODO: messages.warning(
-                    #     request,
-                    #     "Solamente se puede subir un video por publicación",
-                    # )
+                    messages.warning(
+                        request,
+                        "Solamente se puede subir un video por publicación",
+                    )
                     return upload_post
                 elif str(e) == "HttpError":
-                    # TODO: messages.warning(
-                    #     request,
-                    #     "El archivo tiene que ser una imagen o video",
-                    # )
+                    messages.warning(
+                        request,
+                        "El archivo tiene que ser una imagen o video",
+                    )
                     return upload_post
         else:
             return render(
@@ -197,16 +198,16 @@ def delete_action(request, model):
     if request.method == "POST":
         referrer_url = request.META.get("HTTP_REFERER", "/")
         if model not in settings.AUTH_ACTION_MODELS:
-            # TODO: messages.error(request, "Acción no permitida")
+            messages.error(request, "Acción no permitida")
             return redirect(referrer_url)
         data = json.loads(request.body)
         ids = data.get("delete_ids", [])
         if model == "User":
             if request.user.id in ids:
-                # TODO: messages.warning(
-                #     request,
-                #     "No puedes borrar al usuario que realiza la acción",
-                # )
+                messages.warning(
+                    request,
+                    "No puedes borrar al usuario que realiza la acción",
+                )
                 return redirect(referrer_url)
             User.objects.filter(id__in=ids).delete()
         elif model == "Post":
@@ -215,17 +216,17 @@ def delete_action(request, model):
             Tag.objects.filter(id__in=ids).delete()
         elif model == "Question":
             Question.objects.filter(id__in=ids).delete()
-        # TODO: messages.success(request, "Acción completada")
+        messages.success(request, "Acción completada")
         return redirect(referrer_url)
     else:
-        # TODO: messages.warning(request, "Acción incorrecta")
+        messages.warning(request, "Acción incorrecta")
         return redirect(reverse("root:root"))
 
 
 def delete_post(request, post_id):
     post = Post.objects.filter(id=post_id).first()
     if post is None:
-        # TODO: messages.error(request, "Publicación no encontrada")
+        messages.error(request, "Publicación no encontrada")
         return redirect(reverse("root:root"))
     post.delete()
     return redirect(reverse("root:root"))
@@ -234,14 +235,14 @@ def delete_post(request, post_id):
 def delete_user(request, user_id):
     user = User.objects.filter(id=user_id).first()
     if user is None:
-        # TODO: messages.error(request, "Usuario no encontrado")
+        messages.error(request, "Usuario no encontrado")
         return redirect(reverse("root:users"))
     admins = User.objects.filter(is_staff=True)
     if len(admins) == 1 and admins[0].id == user_id:
-        # TODO: messages.warning(
-        #     request,
-        #     "No se pueden eliminar todos los administradores",
-        # )
+        messages.warning(
+            request,
+            "No se pueden eliminar todos los administradores",
+        )
         return redirect(reverse("root:users"))
     user.delete()
     return redirect(reverse("root:users"))
@@ -250,7 +251,7 @@ def delete_user(request, user_id):
 def delete_tag(request, tag_id):
     tag = Tag.objects.filter(id=tag_id).first()
     if tag is None:
-        # TODO: messages.error(request, "Etiqueta no encontrado")
+        messages.error(request, "Etiqueta no encontrado")
         return redirect(reverse("root:tags"))
     tag.delete()
     return redirect(reverse("root:tags"))
@@ -259,7 +260,7 @@ def delete_tag(request, tag_id):
 def edit_post(request, post_id):
     post = Post.objects.filter(id=post_id).first()
     if post is None:
-        # TODO: messages.error(request, "Publicación no encontrada")
+        messages.error(request, "Publicación no encontrada")
         return redirect(reverse("root:root"))
     if request.method == "POST":
         form = EditPost(request.POST, request.FILES)
@@ -284,28 +285,28 @@ def edit_post(request, post_id):
                     },
                 )
                 if str(e) == "DuplicateName":
-                    # TODO: messages.warning(
-                    #     request,
-                    #     "Ya hay una publicación con ese nombre",
-                    # )
+                    messages.warning(
+                        request,
+                        "Ya hay una publicación con ese nombre",
+                    )
                     return render_edit
                 elif str(e) == "NoFiles":
-                    # TODO: messages.warning(
-                    #     request,
-                    #     "El archivo tiene que ser una imagen o video",
-                    # )
+                    messages.warning(
+                        request,
+                        "El archivo tiene que ser una imagen o video",
+                    )
                     return render_edit
                 elif str(e) == "FilesError":
-                    # TODO: messages.warning(
-                    #     request,
-                    #     "Solamente se puede subir un video por publicación",
-                    # )
+                    messages.warning(
+                        request,
+                        "Solamente se puede subir un video por publicación",
+                    )
                     return render_edit
                 elif str(e) == "HttpError":
-                    # TODO: messages.warning(
-                    #     request,
-                    #     "El archivo tiene que ser una imagen o video",
-                    # )
+                    messages.warning(
+                        request,
+                        "El archivo tiene que ser una imagen o video",
+                    )
                     return render_edit
             return redirect(
                 reverse(
@@ -337,7 +338,7 @@ def edit_post(request, post_id):
 def post_details(request, post_id):
     post = Post.objects.filter(id=post_id).first()
     if post is None:
-        # TODO: messages.error(request, "Publicación no encontrada")
+        messages.error(request, "Publicación no encontrada")
         return redirect(reverse("root:root"))
     return render(
         request,
@@ -351,7 +352,7 @@ def post_details(request, post_id):
 def user_details(request, user_id):
     user = User.objects.filter(id=user_id).first()
     if user is None:
-        # TODO: messages.error(request, "Usuario no encontrado")
+        messages.error(request, "Usuario no encontrado")
         return redirect(reverse("root:users"))
     content = request.GET.get("content", "comments")
     comments = None
@@ -361,7 +362,7 @@ def user_details(request, user_id):
     elif content == "questions":
         questions = Question.objects.filter(author=user)
     else:
-        # TODO: messages.error(request, f"Opción {content} no es valida")
+        messages.error(request, f"Opción {content} no es valida")
         return redirect(reverse("root:user_details", args=[user_id]))
     return render(
         request,
@@ -378,7 +379,7 @@ def user_details(request, user_id):
 def tag_details(request, tag_id):
     tag = Tag.objects.filter(id=tag_id).first()
     if tag is None:
-        # TODO: messages.error(request, "Etiqueta no encontrado")
+        messages.error(request, "Etiqueta no encontrado")
         return redirect(reverse("root:tags"))
     return render(
         request,
@@ -390,7 +391,7 @@ def tag_details(request, tag_id):
 def question_details(request, question_id):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
-        # TODO: messages.error(request, "Pregunta no encontrada")
+        messages.error(request, "Pregunta no encontrada")
         return redirect(reverse("root:questions"))
     return render(
         request,
@@ -402,7 +403,7 @@ def question_details(request, question_id):
 def remove_question(request, user_id: int, question_id: int):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
-        # TODO: messages.error(request, "Pregunta no encontrada")
+        messages.error(request, "Pregunta no encontrada")
         return redirect(reverse("questions:questions"))
     question.delete()
     return redirect(
@@ -413,7 +414,7 @@ def remove_question(request, user_id: int, question_id: int):
 def remove_comment(request, user_id: int, comment_id: int):
     comment = Comment.objects.filter(id=comment_id).first()
     if comment is None:
-        # TODO: messages.error(request, "Comentario no encontrado")
+        messages.error(request, "Comentario no encontrado")
         return redirect(reverse("root:user_details", args=[user_id]))
     comment.delete()
     return redirect(reverse("root:user_details", args=[user_id]))
