@@ -52,7 +52,7 @@
 		<div class="gallery">
             {% for post in posts %}
 			<div class="gallery-item" tabindex="0">
-                {% if post.type == "image" %}
+            	{% if post.post_type == 'IM' %}
 					{% if post.urls|length == 1%}
 				    	<img src={{post.sources.0.url}} class="gallery-image" alt={{post.name}}>
 					{% else %}
