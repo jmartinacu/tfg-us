@@ -185,6 +185,8 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name="comments",
     )
+    toxic = models.BooleanField(default=False)
+    moderate = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Comment for {self.post.name}"
