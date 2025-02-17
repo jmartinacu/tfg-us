@@ -21,4 +21,8 @@ app.conf.beat_schedule = {
         "task": "posts.tasks.detoxify_comments",
         "schedule": crontab(hour=0, minute=0),
     },
+    "daily-detoxify-questions": {
+        "task": "questions.tasks.detoxify_questions",
+        "schedule": crontab(hour=0, minute=0),
+    },
 }

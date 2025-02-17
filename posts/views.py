@@ -85,7 +85,7 @@ def comments(request, post_id, post_type):
             )
     mime_types = [source.get_mime_type() for source in post.sources]
     comment_form = CreateCommentForm()
-    comments = Comment.objects.filter(post=post)
+    comments = Comment.objects.filter(post=post, toxic=False)
     return render(
         request,
         template,
@@ -117,7 +117,7 @@ def remove_comment(request, post_id: int, comment_id: int):
         )
     comment.delete()
     comment_form = CreateCommentForm()
-    comments = Comment.objects.filter(post=post)
+    comments = Comment.objects.filter(post=post, toxic=False)
     template = "posts/image.html"
     mime_types = [source.get_mime_type() for source in post.sources]
     if post_type == "video":

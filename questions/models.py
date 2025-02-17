@@ -8,6 +8,8 @@ class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     resolve = models.BooleanField(default=False)
     archive = models.BooleanField(default=False)
+    toxic = models.BooleanField(default=False)
+    moderate = models.BooleanField(default=False)
     answer = models.OneToOneField(
         "Answer", on_delete=models.SET_NULL, null=True, blank=True
     )
