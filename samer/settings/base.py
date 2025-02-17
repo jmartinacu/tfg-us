@@ -6,20 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-SECRET_KEY = (
-    "django-insecure-#5ut6acm_gu%3rqtsh6j4kqqn)#%9p*38=w64#pv%k*7mvvzt3"  # noqa
-)
-
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Application definition
 
@@ -45,9 +32,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "samer.middleware.auth_middleware.RootMiddleware",
 ]
 
-ROOT_URLCONF = "samer.urls"
+ROOT_URLCONF = "samerproject.urls"
 
 TEMPLATES = [
     {
@@ -60,12 +48,18 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "users.context_processors.user_auth",
             ],
         },
     },
 ]
 
+
 WSGI_APPLICATION = "samer.wsgi.application"
+
+
+# Database
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -78,9 +72,8 @@ DATABASES = {
     }
 }
 
-
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -99,9 +92,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
+# https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "es-ES"
+LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Europe/Madrid"
 
@@ -111,7 +104,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
 
@@ -122,7 +115,7 @@ STATICFILES_DIRS = [
 ]
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -145,3 +138,51 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
 CELERY_TIMEZONE = "UTC"
+
+# AUTH USER
+
+# AUTHUSER_SESSION_ID = "userauth"
+
+# SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+AUTH_ACTION_MODELS = [
+    "User",
+    "Post",
+    "Tag",
+    "Question",
+]
+
+# AUTH_INCLUDE_PATHS = [
+#     {
+#         "name": "posts:add_posts_tag",
+#         "type": "dynamic",
+#         "args": ["66dd91747f069f8dd89be45a"],
+#     },
+#     {
+#         "name": "questions:create_answer",
+#         "type": "dynamic",
+#         "args": ["66dd91747f069f8dd89be45a", "dummy_edit"],
+#     },
+#     {
+#         "name": "questions:delete_root",
+#         "type": "dynamic",
+#         "args": ["66dd91747f069f8dd89be45a"],
+#     },
+#     {
+#         "name": "questions:toxic",
+#         "type": "dynamic",
+#         "args": ["66dd91747f069f8dd89be45a"],
+#     },
+#     {
+#         "name": "posts:search_posts",
+#         "type": "static",
+#     },
+#     {
+#         "name": "questions:archive",
+#         "type": "static",
+#     },
+#     {
+#         "name": "home:home_edit_profile",
+#         "type": "static",
+#     },
+# ]
