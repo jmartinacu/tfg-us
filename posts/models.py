@@ -2,10 +2,12 @@ import tempfile
 from io import BytesIO
 from os import path
 from urllib.error import HTTPError
+from urllib.parse import urlparse
 
 import imageio
 import magic
 import requests
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -115,7 +117,13 @@ class Source(models.Model):
         super().__init__(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        delete_file(self.name)
+        parsed_url = urlparse(self.url)
+        if settings.AWS_BUCKET_NAME not in parsed_url.netloc:
+            return super().delete(*args, **kwargs)
+        delete_file(parsed_url.path[1:])
+        if self.thumbnail_url:
+            parsed_thumbnail_url = urlparse(self.thumbnail_url)
+            delete_file(parsed_thumbnail_url.path[1:])
         super().delete(*args, **kwargs)
 
     def __str__(self):
