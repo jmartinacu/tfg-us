@@ -1,10 +1,13 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
+from posts.models import Source
+
 
 class ProfileInformation(models.Model):
-    app_name = models.CharField(max_length=255)
-    app_real_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    secondary_name = models.CharField(max_length=255, blank=True)
     descriptions = ArrayField(models.CharField(max_length=100), blank=True)
-    url = models.URLField(blank=True, null=True)
-    image_url = models.URLField()
+    source = models.OneToOneField(
+        Source, on_delete=models.CASCADE, related_name="profile_information"
+    )
