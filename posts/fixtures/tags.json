@@ -1,0 +1,20 @@
+[
+    {
+        "model": "posts.tag",
+        "pk": 1,
+        "fields": {
+            "name": "Comida",
+            "posts": [1, 2, 3],
+            "source": 22
+        }
+    },
+    {
+        "model": "posts.tag",
+        "pk": 2,
+        "fields": {
+            "name": "Diversión",
+            "posts": [4, 5, 6],
+            "source": 23
+        }
+    }
+]

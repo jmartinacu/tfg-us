@@ -250,5 +250,29 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg"
         }
+    },
+    {
+        "model": "posts.source",
+        "pk": 22,
+        "fields": {
+            "url": "https://samerbucket2.s3.eu-central-1.amazonaws.com/tags/bol.jpeg",
+            "thumbnail_url": null,
+            "name": "bol_aws",
+            "type": "IM",
+            "extension": ".jpeg",
+            "mime_type": "image/jpeg"
+        }
+    },
+    {
+        "model": "posts.source",
+        "pk": 23,
+        "fields": {
+            "url": "https://samerbucket2.s3.eu-central-1.amazonaws.com/tags/globos.jpeg",
+            "thumbnail_url": null,
+            "name": "globos_aws",
+            "type": "IM",
+            "extension": ".jpeg",
+            "mime_type": "image/jpeg"
+        }
     }
 ]
