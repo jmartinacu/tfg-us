@@ -1,6 +1,6 @@
 [
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 1,
         "fields": {
             "name": "countryside",
@@ -11,7 +11,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 2,
         "fields": {
             "name": "lake",
@@ -22,7 +22,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 3,
         "fields": {
             "name": "forest",
@@ -33,7 +33,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 4,
         "fields": {
             "name": "golden_gate",
@@ -44,7 +44,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 5,
         "fields": {
             "name": "food",
@@ -55,7 +55,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 6,
         "fields": {
             "name": "fruit",
@@ -66,7 +66,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 7,
         "fields": {
             "name": "river",
@@ -77,7 +77,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 8,
         "fields": {
             "name": "dog",
@@ -88,7 +88,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 9,
         "fields": {
             "name": "cat",
@@ -99,7 +99,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 10,
         "fields": {
             "name": "breakfast",
@@ -110,7 +110,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 11,
         "fields": {
             "name": "music",
@@ -121,7 +121,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 12,
         "fields": {
             "name": "beach",
@@ -132,7 +132,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 13,
         "fields": {
             "name": "horse",
@@ -143,7 +143,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 14,
         "fields": {
             "name": "stairs",
@@ -154,7 +154,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 15,
         "fields": {
             "name": "kangaroo",
@@ -165,7 +165,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 16,
         "fields": {
             "name": "mountain",
@@ -176,7 +176,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 17,
         "fields": {
             "name": "beach_couple",
@@ -187,7 +187,7 @@
         }
     },
     {
-        "model": "post.Post",
+        "model": "posts.post",
         "pk": 18,
         "fields": {
             "name": "window",

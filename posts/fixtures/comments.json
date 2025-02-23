@@ -1,0 +1,79 @@
+[
+    {
+        "model": "posts.comment",
+        "pk": 1,
+        "fields": {
+            "text": "He sido el primero",
+            "post": 1,
+            "author": 2,
+            "toxic": false,
+            "moderate": false
+        }
+    },
+    {
+        "model": "posts.comment",
+        "pk": 2,
+        "fields": {
+            "text": "Una foto muy bonita",
+            "post": 1,
+            "author": 1,
+            "toxic": false,
+            "moderate": false
+        }
+    },
+    {
+        "model": "posts.comment",
+        "pk": 3,
+        "fields": {
+            "text": "Me gusta la luz que tiene",
+            "post": 1,
+            "author": 2,
+            "toxic": false,
+            "moderate": false
+        }
+    },
+    {
+        "model": "posts.comment",
+        "pk": 4,
+        "fields": {
+            "text": "He sido el primero en comentar",
+            "post": 1,
+            "author": 1,
+            "toxic": false,
+            "moderate": false
+        }
+    },
+    {
+        "model": "posts.comment",
+        "pk": 5,
+        "fields": {
+            "text": "Quien ha hecho la foto?",
+            "post": 1,
+            "author": 2,
+            "toxic": false,
+            "moderate": false
+        }
+    },
+    {
+        "model": "posts.comment",
+        "pk": 6,
+        "fields": {
+            "text": "Me encanta como se refleja la luz del sol en la monta\u00f1a!!",
+            "post": 13,
+            "author": 1,
+            "toxic": false,
+            "moderate": false
+        }
+    },
+    {
+        "model": "posts.comment",
+        "pk": 7,
+        "fields": {
+            "text": "Ojala poder visitar ese lugar",
+            "post": 13,
+            "author": 2,
+            "toxic": false,
+            "moderate": false
+        }
+    }
+]
