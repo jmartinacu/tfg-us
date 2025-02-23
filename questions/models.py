@@ -17,12 +17,14 @@ class Question(models.Model):
         User,
         related_name="liked_questions",
         blank=True,
+        null=True,
     )
     tags = models.JSONField(default=list)
     views = models.ManyToManyField(
         User,
         related_name="viewed_questions",
         blank=True,
+        null=True,
     )
 
     def __str__(self):

@@ -1,0 +1,201 @@
+[
+    {
+        "model": "questions.question",
+        "pk": 1,
+        "fields": {
+            "title": "Hábitos saludables",
+            "content": "¿Qué puedo hacer para mejorar mis hábitos saludables al levantarme?",
+            "author": 1,
+            "resolve": true,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": 1,
+            "likes": null,
+            "tags": [
+                "salud",
+                "hábitos",
+                "mañana"
+            ],
+            "views": null
+        }
+    },
+    {
+        "model": "questions.question",
+        "pk": 2,
+        "fields": {
+            "title": "Aprender un nuevo idioma",
+            "content": "¿Cuáles son las mejores formas de aprender un nuevo idioma de manera efectiva?",
+            "author": 1,
+            "resolve": false,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": null,
+            "likes": null,
+            "tags": [
+                "aprender",
+                "idiomas",
+                "mejorar"
+            ],
+            "views": null
+        }
+    },
+    {
+        "model": "questions.question",
+        "pk": 3,
+        "fields": {
+            "title": "Gestión del tiempo",
+            "content": "¿Cómo puedo gestionar mejor mi tiempo durante el día?",
+            "author": 1,
+            "resolve": false,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": null,
+            "likes": null,
+            "tags": [
+                "tiempo",
+                "hábitos"
+            ],
+            "views": null
+        }
+    },
+    {
+        "model": "questions.question",
+        "pk": 4,
+        "fields": {
+            "title": "Recetas de cocina",
+            "content": "¿Qué recetas rápidas y saludables puedo preparar para la cena?",
+            "author": 1,
+            "resolve": true,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": 2,
+            "likes": null,
+            "tags": [
+                "salud",
+                "cocina",
+                "alimentación"
+            ],
+            "views": null
+        }
+    },
+    {
+        "model": "questions.question",
+        "pk": 5,
+        "fields": {
+            "title": "Mejorar el sueño",
+            "content": "¿Qué consejos puedes dar para mejorar la calidad del sueño?",
+            "author": 1,
+            "resolve": false,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": null,
+            "likes": null,
+            "tags": [
+                "salud",
+                "sueño",
+                "mejora"
+            ],
+            "views": null
+        }
+    },
+    {
+        "model": "questions.question",
+        "pk": 6,
+        "fields": {
+            "title": "Ejercicio en casa",
+            "content": "¿Qué tipo de ejercicios puedo hacer en casa sin equipo?",
+            "author": 1,
+            "resolve": false,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": null,
+            "likes": null,
+            "tags": [
+                "salud",
+                "ejercicio"
+            ],
+            "views": null
+        }
+    },
+    {
+        "model": "questions.question",
+        "pk": 7,
+        "fields": {
+            "title": "Desarrollo personal",
+            "content": "¿Cómo puedo empezar a trabajar en mi desarrollo personal?",
+            "author": 1,
+            "resolve": false,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": null,
+            "likes": null,
+            "tags": [
+                "desarrollo"
+            ],
+            "views": null
+        }
+    },
+    {
+        "model": "questions.question",
+        "pk": 8,
+        "fields": {
+            "title": "Manejo del estrés",
+            "content": "¿Qué técnicas efectivas hay para manejar el estrés?",
+            "author": 1,
+            "resolve": false,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": null,
+            "likes": null,
+            "tags": [
+                "salud",
+                "estrés"
+            ],
+            "views": null
+        }
+    },
+    {
+        "model": "questions.question",
+        "pk": 9,
+        "fields": {
+            "title": "Planificación financiera",
+            "content": "¿Cómo puedo empezar a planificar mi presupuesto personal?",
+            "author": 1,
+            "resolve": false,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": null,
+            "likes": null,
+            "tags": [],
+            "views": null
+        }
+    },
+    {
+        "model": "questions.question",
+        "pk": 10,
+        "fields": {
+            "title": "Cuidado de plantas",
+            "content": "¿Cuáles son los cuidados básicos para mantener una planta de interior saludable?",
+            "author": 1,
+            "resolve": true,
+            "archive": false,
+            "toxic": false,
+            "moderate": false,
+            "answer": 3,
+            "likes": null,
+            "tags": [
+                "hábitos"
+            ],
+            "views": null
+        }
+    }
+]
