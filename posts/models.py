@@ -118,12 +118,13 @@ class Source(models.Model):
 
     def delete(self, *args, **kwargs):
         parsed_url = urlparse(self.url)
+        if self.thumbnail_url:
+            parsed_thumb_url = urlparse(self.thumbnail_url)
+            if settings.AWS_BUCKET_NAME in parsed_thumb_url.netloc:
+                delete_file(parsed_thumb_url.path[1:])
         if settings.AWS_BUCKET_NAME not in parsed_url.netloc:
             return super().delete(*args, **kwargs)
         delete_file(parsed_url.path[1:])
-        if self.thumbnail_url:
-            parsed_thumbnail_url = urlparse(self.thumbnail_url)
-            delete_file(parsed_thumbnail_url.path[1:])
         super().delete(*args, **kwargs)
 
     def __str__(self):
