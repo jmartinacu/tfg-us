@@ -238,5 +238,17 @@
             "extension": ".mp4",
             "mime_type": "video/mp4"
         }
+    },
+    {
+        "model": "posts.source",
+        "pk": 21,
+        "fields": {
+            "url": "https://samerbucket2.s3.eu-central-1.amazonaws.com/samerlogo.jpg",
+            "thumbnail_url": null,
+            "name": "samer_logo",
+            "type": "IM",
+            "extension": ".jpg",
+            "mime_type": "image/jpeg"
+        }
     }
 ]
