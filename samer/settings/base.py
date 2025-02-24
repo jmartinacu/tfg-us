@@ -32,10 +32,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "samer.middleware.auth_middleware.RootMiddleware",
 ]
 
-ROOT_URLCONF = "samerproject.urls"
+ROOT_URLCONF = "samer.urls"
 
 TEMPLATES = [
     {
@@ -57,20 +56,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "samer.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("DB_NAME", "samer"),
-        "USER": os.getenv("DB_USER", "postgres"),
-        "PASSWORD": os.getenv("DB_PASS", ""),
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
