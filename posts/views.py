@@ -10,15 +10,15 @@ from posts.models import Comment, Post, Tag
 
 
 def add_remove_like(request, post_id):
-    # allows_redirects = [
-    #     "home:home_images",
-    #     "home:home_videos",
-    #     "posts:comment",
-    # ]
+    allows_redirects = [
+        "home:home_images",
+        "home:home_videos",
+        "posts:comment",
+    ]
     redirect_view = request.GET.get("redirect", "home:home_images")
     post_type = None
-    # if redirect_view not in allows_redirects:
-    messages.error(request, f"Redirección {redirect_view} no permitida")
+    if redirect_view not in allows_redirects:
+        messages.error(request, f"Redirección {redirect_view} no permitida")
     if redirect_view == "posts:comment":
         post_type: str = request.GET.get("type", "")
         if post_type == "" or post_type not in ["image", "video"]:
@@ -103,7 +103,7 @@ def remove_comment(request, post_id: int, comment_id: int):
     if post is None:
         messages.error(request, "Publicación no encontrada")
         return redirect(reverse("home:home_videos"))
-    post_type = post.post_type
+    post_type = post.sources.first().type
     comment = Comment.objects.filter(id=comment_id).first()
     if comment is None:
         messages.error(request, "Comentario no encontrado")

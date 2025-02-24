@@ -44,7 +44,7 @@
                             {{post.name}}
                         </td>
                         <td>
-                            {{post.post_type}}
+                            {{post.sources.0.get_type_display}}
                         </td>
                     </tr>
                 {% endfor %}

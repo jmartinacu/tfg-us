@@ -41,14 +41,14 @@
                 </ul>
             {% endif %}
             <h3 class="">Añade un comentario:</h3>
-            <form class="comment-form" id="createCommentForm" action="{% url 'posts:comment' post.id post.post_type %}" method="post">
+            <form class="comment-form" id="createCommentForm" action="{% url 'posts:comment' post.sources.0.type %}" method="post">
                 {% csrf_token %}
                 <div class="textarea-container">
                     {{form.comment}}
                 </div>
                 <div>
                     <button type="submit">Añadir Comentario</button>
-                    <a href="{% url 'posts:add_remove_like' post.id %}?redirect=posts:comment&type={% if post.post_type == 'IM'%}image{% else %}video{% endif %}"><i class="material-icons">favorite</i></a>
+                    <a href="{% url 'posts:add_remove_like' post.id %}?redirect=posts:comment&type={% if post.sources.0.type == 'IM'%}image{% else %}video{% endif %}"><i class="material-icons">favorite</i></a>
                 </div>
             </form>
             {% if user.is_authenticated and user in post.likes and post.likes|length > 2 %}

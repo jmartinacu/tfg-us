@@ -52,7 +52,7 @@
 		<div class="gallery">
             {% for post in posts %}
 			<div class="gallery-item" tabindex="0">
-            	{% if post.post_type == 'IM' %}
+            	{% if post.sources.0.type == 'IM' %}
 					{% if post.urls|length == 1%}
 				    	<img src={{post.sources.0.url}} class="gallery-image" alt={{post.name}}>
 					{% else %}
@@ -74,8 +74,8 @@
                 {% endif %}
 				<div class="gallery-item-info">
 					<ul>
-						<li class="gallery-item-likes"><span class="visually-hidden material-icons">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i><a href="{% url 'posts:add_remove_like' post.id %}?redirect={% if post.post_type == "IM" %}home:home_images{% else %}home:home_videos{% endif %}">{{ post.likes|length }} <i class="material-icons">favorite</i></a></li>
-						<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i><a href="{% url 'posts:comment' post.id post.post_type %}">{{post.comments}} <i class="material-icons">chat_bubble</i></a></li>
+						<li class="gallery-item-likes"><span class="visually-hidden material-icons">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i><a href="{% url 'posts:add_remove_like' post.id %}?redirect={% if post.sources.0.type == "IM" %}home:home_images{% else %}home:home_videos{% endif %}">{{ post.likes|length }} <i class="material-icons">favorite</i></a></li>
+						<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i><a href="{% url 'posts:comment' post.id post.sources.0.type %}">{{post.comments}} <i class="material-icons">chat_bubble</i></a></li>
 					</ul>
 				</div>
 			</div>

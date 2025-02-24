@@ -6,15 +6,19 @@ from django.urls import reverse
 
 from home.forms import ProfileForm
 from home.models import ProfileInformation
-from posts.models import Post, Tag
+from posts.models import FilesTypes, Post, Tag
 from samer.bucket import delete_file, upload_file
 
 
 def home_images(request):
-    posts = Post.objects.filter(
-        post_type=Post.PostTypes.IMAGE,
-    ).annotate(
-        comments=Count("comments"),
+    posts = (
+        Post.objects.filter(
+            sources__type=FilesTypes.IMAGE,
+        )
+        .distinct()
+        .annotate(
+            comments=Count("comments"),
+        )
     )
     tags = Tag.objects.all()
     profile = ProfileInformation.objects.first()
@@ -30,10 +34,14 @@ def home_images(request):
 
 
 def home_videos(request):
-    posts = Post.objects.filter(
-        post_type=Post.PostTypes.VIDEO,
-    ).annotate(
-        comments=Count("comments"),
+    posts = (
+        Post.objects.filter(
+            sources__type=FilesTypes.VIDEO,
+        )
+        .distinct()
+        .annotate(
+            comments=Count("comments"),
+        )
     )
     profile = ProfileInformation.objects.first()
     return render(
