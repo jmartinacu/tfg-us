@@ -17,14 +17,12 @@ class Question(models.Model):
         User,
         related_name="liked_questions",
         blank=True,
-        null=True,
     )
-    tags = models.JSONField(default=list)
+    tags = models.JSONField()
     views = models.ManyToManyField(
         User,
         related_name="viewed_questions",
         blank=True,
-        null=True,
     )
 
     def __str__(self):
@@ -34,7 +32,6 @@ class Question(models.Model):
 class Answer(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.OneToOneField(Question, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Answer to {self.question.title}"

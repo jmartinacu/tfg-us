@@ -21,6 +21,50 @@ class FilesTypes(models.TextChoices):
     VIDEO = "VD", _("Video")
 
 
+class Post(models.Model):
+    name = models.CharField(max_length=255)
+    likes = models.ManyToManyField(User, related_name="likes", blank=True)
+    description = models.TextField(blank=True, null=True)
+
+    def create_sources(self, files):
+        sources: list[Source] = []
+        for file in files:
+            post_bytes = file.read()
+            file.seek(0)
+            src = Source(file=file, file_bytes=post_bytes, post=self)
+            sources.append(src)
+        if len(
+            sources,
+        ) > 1 and not all(s.type != FilesTypes.IMAGE for s in sources):
+            for src in sources:
+                src.delete()
+            raise ValueError("FilesError")
+        Source.objects.bulk_create(sources)
+
+    def create(self, *args, **kwargs):
+        files = kwargs.get("files", None)
+        name = kwargs.get("name", None)
+        if files is None:
+            raise ValueError("NoFiles")
+        if name is None:
+            full_file_name = str(files[0].name)
+            file_name, _ext = path.splitext(full_file_name)
+            kwargs["name"] = file_name
+        check_name = Post.objects.filter(name=name)
+        if check_name.exists():
+            raise ValueError("DuplicateName")
+        post: Post = super().create(*args, **kwargs)
+        try:
+            post.create_sources(files)
+        except ValueError as e:
+            post.delete()
+            raise e
+        return post
+
+    def __str__(self):
+        return self.name
+
+
 class Source(models.Model):
     url = models.URLField()
     thumbnail_url = models.URLField(blank=True, null=True)
@@ -31,6 +75,12 @@ class Source(models.Model):
     )
     extension = models.CharField(max_length=255)
     mime_type = models.CharField(max_length=255)
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name="sources",
+        null=True,
+    )
 
     def get_mime_type(self):
         response = requests.get(self.url, stream=True, timeout=10)
@@ -70,6 +120,9 @@ class Source(models.Model):
             return is_video_file
 
     def __init__(self, *args, **kwargs):
+        id = kwargs.get("id", None)
+        if id:
+            return super().__init__(*args, **kwargs)
         file = kwargs.get("file", None)
         file_bytes = kwargs.get("file_bytes", None)
         src_type = kwargs.get("type", "post")
@@ -131,57 +184,6 @@ class Source(models.Model):
         return self.name
 
 
-class Post(models.Model):
-    name = models.CharField(max_length=255)
-    likes = models.ManyToManyField(User, related_name="likes", blank=True)
-    description = models.TextField(blank=True, null=True)
-    post_type = models.CharField(
-        max_length=2,
-        choices=FilesTypes.choices,
-        default=FilesTypes.IMAGE,
-    )
-    sources = models.ForeignKey(
-        Source,
-        on_delete=models.CASCADE,
-        related_name="post",
-    )
-
-    @classmethod
-    def create_sources(cls, files):
-        sources: list[Source] = []
-        for file in files:
-            post_bytes = file.read()
-            file.seek(0)
-            src = Source(file=file, file_bytes=post_bytes)
-            sources.append(src)
-        if len(
-            sources,
-        ) > 1 and not all(s.type != FilesTypes.IMAGE for s in sources):
-            for src in sources:
-                src.delete()
-            raise ValueError("FilesError")
-        return Source.objects.bulk_create(sources)
-
-    def create(self, *args, **kwargs):
-        files = kwargs.get("files", None)
-        name = kwargs.get("name", None)
-        if files is None:
-            raise ValueError("NoFiles")
-        if name is None:
-            full_file_name = str(files[0].name)
-            file_name, _ext = path.splitext(full_file_name)
-            kwargs["name"] = file_name
-        check_name = Post.objects.filter(name=name)
-        if check_name.exists():
-            raise ValueError("DuplicateName")
-        sources = self.create_sources(files)
-        kwargs["post_type"] = sources[0].type
-        super().create(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
-
-
 class Comment(models.Model):
     text = models.TextField()
     post = models.ForeignKey(
@@ -193,6 +195,7 @@ class Comment(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name="comments",
+        null=True,
     )
     toxic = models.BooleanField(default=False)
     moderate = models.BooleanField(default=False)
