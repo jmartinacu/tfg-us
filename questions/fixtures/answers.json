@@ -4,8 +4,7 @@
         "pk": 1,
         "fields": {
             "content": "Hay varias maneras de mejorar los hábitos saludables, una de ellas es hacer ejercicio, para exponerte a la luz del sol y que tu cuerpo se active. También puedes abstenerte de tomar café en las dos primeras horas de la mañana para que tu cuerpo recupere su ciclo normal naturalmente.",
-            "author": 1,
-            "question": 1
+            "author": 1
         }
     },
     {
@@ -13,8 +12,7 @@
         "pk": 2,
         "fields": {
             "content": "Puedes preparar ensaladas con proteínas como pollo a la parrilla, tofu o atún. También, recetas de salteados con verduras y arroz integral son rápidas y saludables.",
-            "author": 2,
-            "question": 4
+            "author": 2
         }
     },
     {
@@ -22,8 +20,7 @@
         "pk": 3,
         "fields": {
             "content": "Asegúrate de que tu planta reciba la cantidad adecuada de luz, agua y nutrientes. Investiga las necesidades específicas de cada tipo de planta y ajusta su cuidado en consecuencia.",
-            "admin": 2,
-            "question": 10
+            "author": 2
         }
     }
 ]

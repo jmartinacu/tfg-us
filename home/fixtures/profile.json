@@ -1,13 +1,17 @@
 [
     {
-        "name": "samervalme",
-        "secondary_name": "Salud Mental En Red - SAMER Valme\n",
-        "descriptions": [
-            "💫 Programa de Prevención y Promoción de la Salud Mental ❤️🧠",
-            "🏥 Área Sur de Sevilla - Hospital de Valme",
-            "🌾 Creamos recursos y contenidos En Red."
-        ],
-        "source": 21,
-        "url": "https://www.agssursevilla.org/"
+        "model": "home.profileinformation",
+        "pk": 1,
+        "fields": {
+            "name": "samervalme",
+            "secondary_name": "Salud Mental En Red - SAMER Valme\n",
+            "descriptions": [
+                "💫 Programa de Prevención y Promoción de la Salud Mental ❤️🧠",
+                "🏥 Área Sur de Sevilla - Hospital de Valme",
+                "🌾 Creamos recursos y contenidos En Red."
+            ],
+            "source": 21,
+            "url": "https://www.agssursevilla.org/"
+        }
     }
 ]

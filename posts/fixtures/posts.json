@@ -5,9 +5,7 @@
         "fields": {
             "name": "countryside",
             "likes": [],
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "post_type": "IM",
-            "sources": [1, 2, 3]
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         }
     },
     {
@@ -16,9 +14,7 @@
         "fields": {
             "name": "lake",
             "likes": [],
-            "description": null,
-            "post_type": "IM",
-            "sources": [4]
+            "description": null
         }
     },
     {
@@ -27,9 +23,7 @@
         "fields": {
             "name": "forest",
             "likes": [],
-            "description": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            "post_type": "IM",
-            "sources": [5]
+            "description": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         }
     },
     {
@@ -38,9 +32,7 @@
         "fields": {
             "name": "golden_gate",
             "likes": [],
-            "description": "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.",
-            "post_type": "IM",
-            "sources": [6]
+            "description": "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris."
         }
     },
     {
@@ -49,9 +41,7 @@
         "fields": {
             "name": "food",
             "likes": [],
-            "description": "Integer in mauris eu nibh euismod gravida.",
-            "post_type": "IM",
-            "sources": [7]
+            "description": "Integer in mauris eu nibh euismod gravida."
         }
     },
     {
@@ -60,9 +50,7 @@
         "fields": {
             "name": "fruit",
             "likes": [],
-            "description": "Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam.",
-            "post_type": "IM",
-            "sources": [8]
+            "description": "Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam."
         }
     },
     {
@@ -71,9 +59,7 @@
         "fields": {
             "name": "river",
             "likes": [],
-            "description": "Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi.",
-            "post_type": "IM",
-            "sources": [9]
+            "description": "Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi."
         }
     },
     {
@@ -82,9 +68,7 @@
         "fields": {
             "name": "dog",
             "likes": [],
-            "description": "Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat.",
-            "post_type": "IM",
-            "sources": [10]
+            "description": "Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat."
         }
     },
     {
@@ -93,9 +77,7 @@
         "fields": {
             "name": "cat",
             "likes": [],
-            "description": null,
-            "post_type": "IM",
-            "sources": [11]
+            "description": null
         }
     },
     {
@@ -104,9 +86,7 @@
         "fields": {
             "name": "breakfast",
             "likes": [],
-            "description": "Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst.",
-            "post_type": "IM",
-            "sources": [12]
+            "description": "Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst."
         }
     },
     {
@@ -115,9 +95,7 @@
         "fields": {
             "name": "music",
             "likes": [],
-            "description": null,
-            "post_type": "IM",
-            "sources": [13]
+            "description": null
         }
     },
     {
@@ -126,9 +104,7 @@
         "fields": {
             "name": "beach",
             "likes": [],
-            "description": null,
-            "post_type": "IM",
-            "sources": [14]
+            "description": null
         }
     },
     {
@@ -137,9 +113,7 @@
         "fields": {
             "name": "horse",
             "likes": [],
-            "description": "Horse video",
-            "post_type": "VD",
-            "sources": [15]
+            "description": "Horse video"
         }
     },
     {
@@ -148,9 +122,7 @@
         "fields": {
             "name": "stairs",
             "likes": [],
-            "description": null,
-            "post_type": "VD",
-            "sources": [16]
+            "description": null
         }
     },
     {
@@ -159,9 +131,7 @@
         "fields": {
             "name": "kangaroo",
             "likes": [],
-            "description": "Kangaroo video",
-            "post_type": "VD",
-            "sources": [17]
+            "description": "Kangaroo video"
         }
     },
     {
@@ -170,9 +140,7 @@
         "fields": {
             "name": "mountain",
             "likes": [],
-            "description": "Mountain video",
-            "post_type": "VD",
-            "sources": [18]
+            "description": "Mountain video"
         }
     },
     {
@@ -181,9 +149,7 @@
         "fields": {
             "name": "beach_couple",
             "likes": [],
-            "description": "Beach couple video",
-            "post_type": "VD",
-            "sources": [19]
+            "description": "Beach couple video"
         }
     },
     {
@@ -192,9 +158,7 @@
         "fields": {
             "name": "window",
             "likes": [],
-            "description": null,
-            "post_type": "VD",
-            "sources": [20]
+            "description": null
         }
     }
 ]

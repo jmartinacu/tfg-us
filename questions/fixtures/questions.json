@@ -11,13 +11,13 @@
             "toxic": false,
             "moderate": false,
             "answer": 1,
-            "likes": null,
+            "likes": [],
             "tags": [
                 "salud",
                 "hábitos",
                 "mañana"
             ],
-            "views": null
+            "views": []
         }
     },
     {
@@ -32,13 +32,13 @@
             "toxic": false,
             "moderate": false,
             "answer": null,
-            "likes": null,
+            "likes": [],
             "tags": [
                 "aprender",
                 "idiomas",
                 "mejorar"
             ],
-            "views": null
+            "views": []
         }
     },
     {
@@ -53,12 +53,12 @@
             "toxic": false,
             "moderate": false,
             "answer": null,
-            "likes": null,
+            "likes": [],
             "tags": [
                 "tiempo",
                 "hábitos"
             ],
-            "views": null
+            "views": []
         }
     },
     {
@@ -73,13 +73,13 @@
             "toxic": false,
             "moderate": false,
             "answer": 2,
-            "likes": null,
+            "likes": [],
             "tags": [
                 "salud",
                 "cocina",
                 "alimentación"
             ],
-            "views": null
+            "views": []
         }
     },
     {
@@ -94,13 +94,13 @@
             "toxic": false,
             "moderate": false,
             "answer": null,
-            "likes": null,
+            "likes": [],
             "tags": [
                 "salud",
                 "sueño",
                 "mejora"
             ],
-            "views": null
+            "views": []
         }
     },
     {
@@ -115,12 +115,12 @@
             "toxic": false,
             "moderate": false,
             "answer": null,
-            "likes": null,
+            "likes": [],
             "tags": [
                 "salud",
                 "ejercicio"
             ],
-            "views": null
+            "views": []
         }
     },
     {
@@ -135,11 +135,11 @@
             "toxic": false,
             "moderate": false,
             "answer": null,
-            "likes": null,
+            "likes": [],
             "tags": [
                 "desarrollo"
             ],
-            "views": null
+            "views": []
         }
     },
     {
@@ -154,12 +154,12 @@
             "toxic": false,
             "moderate": false,
             "answer": null,
-            "likes": null,
+            "likes": [],
             "tags": [
                 "salud",
                 "estrés"
             ],
-            "views": null
+            "views": []
         }
     },
     {
@@ -174,9 +174,9 @@
             "toxic": false,
             "moderate": false,
             "answer": null,
-            "likes": null,
+            "likes": [],
             "tags": [],
-            "views": null
+            "views": []
         }
     },
     {
@@ -191,11 +191,11 @@
             "toxic": false,
             "moderate": false,
             "answer": 3,
-            "likes": null,
+            "likes": [],
             "tags": [
                 "hábitos"
             ],
-            "views": null
+            "views": []
         }
     }
 ]
