@@ -120,8 +120,7 @@ class Source(models.Model):
             return is_video_file
 
     def __init__(self, *args, **kwargs):
-        id = kwargs.get("id", None)
-        if id:
+        if "id" in kwargs or args:
             return super().__init__(*args, **kwargs)
         file = kwargs.get("file", None)
         file_bytes = kwargs.get("file_bytes", None)

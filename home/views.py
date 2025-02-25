@@ -11,15 +11,9 @@ from samer.bucket import delete_file, upload_file
 
 
 def home_images(request):
-    posts = (
-        Post.objects.filter(
-            sources__type=FilesTypes.IMAGE,
-        )
-        .distinct()
-        .annotate(
-            comments=Count("comments"),
-        )
-    )
+    posts = Post.objects.filter(
+        sources__type=FilesTypes.IMAGE,
+    ).distinct()
     tags = Tag.objects.all()
     profile = ProfileInformation.objects.first()
     return render(

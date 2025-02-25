@@ -2,7 +2,7 @@ from samer.settings.base import *  # noqa
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = (
