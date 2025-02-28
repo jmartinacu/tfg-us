@@ -8,7 +8,7 @@
             "is_staff": true,
             "is_superuser": true,
             "is_active": true,
-            "password": "pbkdf2_sha256$870000$NMjNXcrhK7XHPf6uT2m09M$MyM/q+rL+KRAxQo+D8fhGib8fbkSYxwmurCJ7BC1vRs="
+            "password": "pbkdf2_sha256$870000$ImiNfnkym7dOZBwpFHkIZy$Tg0/cBOwr3Tq+QKx9FAOg+tLtZNVL7DLjol87LCXXrA="
         }
     },
     {
