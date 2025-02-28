@@ -1,6 +1,7 @@
 import json
 
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -134,6 +135,7 @@ def remove_comment(request, post_id: int, comment_id: int):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def add_post_to_tag(request, tag_id: str):
     if request.method == "POST":
         try:
@@ -151,6 +153,7 @@ def add_post_to_tag(request, tag_id: str):
             return redirect(reverse("root:tags"))
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def search_posts(request):
     post_name = request.GET.get("post_name", "")
     if post_name == "":

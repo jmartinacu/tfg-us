@@ -3,6 +3,7 @@ import json
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from django.core.serializers import serialize
 from django.db import connection
@@ -15,6 +16,7 @@ from questions.models import Question
 from root.forms import CreateTag, EditPost, StaffCreationForm, UploadPost
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def root(request):
     posts = Post.objects.all().annotate(
         comments=Count("comments"),
@@ -38,6 +40,7 @@ def root(request):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def users(request):
     users = User.objects.all()
     return render(
@@ -47,6 +50,7 @@ def users(request):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def tags(request):
     tags = Tag.objects.all()
     return render(
@@ -58,6 +62,7 @@ def tags(request):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def questions(request):
     questions = Question.objects.all()
     return render(
@@ -69,6 +74,7 @@ def questions(request):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def create_admin(request):
     if request.method == "POST":
         form = StaffCreationForm(request.POST)
@@ -98,6 +104,7 @@ def create_admin(request):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def upload_post(request):
     if request.method == "POST":
         form = UploadPost(request.POST, request.FILES)
@@ -159,6 +166,7 @@ def upload_post(request):
         )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def tag_action(request):
     if request.method == "POST" and "file" in request.FILES:
         form = CreateTag(request.POST, request.FILES)
@@ -194,6 +202,7 @@ def tag_action(request):
         return redirect(reverse("root:root"))
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def delete_action(request, model):
     if request.method == "POST":
         referrer_url = request.META.get("HTTP_REFERER", "/")
@@ -223,6 +232,7 @@ def delete_action(request, model):
         return redirect(reverse("root:root"))
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def delete_post(request, post_id):
     post = Post.objects.filter(id=post_id).first()
     if post is None:
@@ -232,6 +242,7 @@ def delete_post(request, post_id):
     return redirect(reverse("root:root"))
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def delete_user(request, user_id):
     user = User.objects.filter(id=user_id).first()
     if user is None:
@@ -248,6 +259,7 @@ def delete_user(request, user_id):
     return redirect(reverse("root:users"))
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def delete_tag(request, tag_id):
     tag = Tag.objects.filter(id=tag_id).first()
     if tag is None:
@@ -257,6 +269,7 @@ def delete_tag(request, tag_id):
     return redirect(reverse("root:tags"))
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def edit_post(request, post_id):
     post = Post.objects.filter(id=post_id).first()
     if post is None:
@@ -335,6 +348,7 @@ def edit_post(request, post_id):
         )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def post_details(request, post_id):
     post = Post.objects.filter(id=post_id).first()
     if post is None:
@@ -349,6 +363,7 @@ def post_details(request, post_id):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def user_details(request, user_id):
     user = User.objects.filter(id=user_id).first()
     if user is None:
@@ -376,6 +391,7 @@ def user_details(request, user_id):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def tag_details(request, tag_id):
     tag = Tag.objects.filter(id=tag_id).first()
     if tag is None:
@@ -388,6 +404,7 @@ def tag_details(request, tag_id):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def question_details(request, question_id):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
@@ -400,6 +417,7 @@ def question_details(request, question_id):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def remove_question(request, user_id: int, question_id: int):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
@@ -411,6 +429,7 @@ def remove_question(request, user_id: int, question_id: int):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def remove_comment(request, user_id: int, comment_id: int):
     comment = Comment.objects.filter(id=comment_id).first()
     if comment is None:

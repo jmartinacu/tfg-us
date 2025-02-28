@@ -123,12 +123,6 @@ CELERY_RESULT_SERIALIZER = "json"
 
 CELERY_TIMEZONE = "UTC"
 
-# AUTH USER
-
-# AUTHUSER_SESSION_ID = "userauth"
-
-# SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
-
 AUTH_ACTION_MODELS = [
     "User",
     "Post",
@@ -138,35 +132,8 @@ AUTH_ACTION_MODELS = [
 
 # AUTH_INCLUDE_PATHS = [
 #     {
-#         "name": "posts:add_posts_tag",
-#         "type": "dynamic",
-#         "args": ["66dd91747f069f8dd89be45a"],
-#     },
-#     {
-#         "name": "questions:create_answer",
-#         "type": "dynamic",
-#         "args": ["66dd91747f069f8dd89be45a", "dummy_edit"],
-#     },
-#     {
-#         "name": "questions:delete_root",
-#         "type": "dynamic",
-#         "args": ["66dd91747f069f8dd89be45a"],
-#     },
-#     {
 #         "name": "questions:toxic",
 #         "type": "dynamic",
 #         "args": ["66dd91747f069f8dd89be45a"],
-#     },
-#     {
-#         "name": "posts:search_posts",
-#         "type": "static",
-#     },
-#     {
-#         "name": "questions:archive",
-#         "type": "static",
-#     },
-#     {
-#         "name": "home:home_edit_profile",
-#         "type": "static",
 #     },
 # ]

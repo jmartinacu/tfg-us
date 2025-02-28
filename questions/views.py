@@ -1,6 +1,7 @@
 import json
 
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -117,6 +118,7 @@ def add_remove_like(request, question_id):
     return redirect(reverse("questions:question", args=[question_id]))
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def create_answer(request, question_id, edit):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
@@ -157,6 +159,7 @@ def create_answer(request, question_id, edit):
         )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def delete_root(request, question_id):
     question = Question.objects.filter(id=question_id).first()
     if question is None:
@@ -166,6 +169,7 @@ def delete_root(request, question_id):
     return redirect(reverse("root:questions"))
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def archive(request):
     if request.method == "POST":
         data = json.loads(request.body)

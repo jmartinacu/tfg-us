@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -48,6 +49,7 @@ def home_videos(request):
     )
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
 def home_edit_profile(request):
     profile = ProfileInformation.objects.first()
     if request.method == "POST" and "image_url" in request.FILES:
