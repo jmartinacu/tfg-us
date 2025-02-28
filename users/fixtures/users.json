@@ -15,11 +15,12 @@
         "model": "auth.user",
         "pk": 2,
         "fields": {
-            "username": "staff",
-            "email": "staff@staff.com",
-            "is_staff": true,
-            "is_superuser": true,
+            "username": "samer",
+            "email": "samer@samer.com",
+            "is_staff": false,
+            "is_superuser": false,
             "is_active": true,
+            "groups": [1],
             "password": "pbkdf2_sha256$870000$7Q4pftENokF4nu3MTKjFcf$xDrlaUE69BR8WNM/ZJYrsB82/P+htAg7rHGabM7itdQ="
         }
     },

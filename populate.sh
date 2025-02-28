@@ -8,6 +8,7 @@ if [ $# -ne 1 ]; then
 fi
 
 FIXTURES=(
+    "groups.json"
     "users.json"
     "posts.json"
     "sources.json"
