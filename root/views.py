@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from django.core.serializers import serialize
 from django.db import connection
-from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -18,9 +17,7 @@ from root.forms import CreateTag, EditPost, StaffCreationForm, UploadPost
 
 @permission_required(perm="root.view_root", raise_exception=True)
 def root(request):
-    posts = Post.objects.all().annotate(
-        comments=Count("comments"),
-    )
+    posts = Post.objects.all()
     is_postgresql = connection.vendor == "postgresql"
     if is_postgresql:
         from django.contrib.postgres.aggregates import StringAgg

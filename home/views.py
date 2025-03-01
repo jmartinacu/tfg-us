@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
-from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -29,15 +28,9 @@ def home_images(request):
 
 
 def home_videos(request):
-    posts = (
-        Post.objects.filter(
-            sources__type=FilesTypes.VIDEO,
-        )
-        .distinct()
-        .annotate(
-            comments=Count("comments"),
-        )
-    )
+    posts = Post.objects.filter(
+        sources__type=FilesTypes.VIDEO,
+    ).distinct()
     profile = ProfileInformation.objects.first()
     return render(
         request,
@@ -111,9 +104,6 @@ def home_tag(request, tag_id: str):
     tag = Tag.objects.filter(id=tag_id).first()
     if tag is None:
         return redirect(reverse("home:home_images"))
-    posts = tag.posts.annotate(
-        comments=Count("comments"),
-    )
     tags = Tag.objects.all()
     profile = ProfileInformation.objects.first()
     return render(
@@ -121,7 +111,7 @@ def home_tag(request, tag_id: str):
         "home/home.html",
         {
             "profile": profile,
-            "posts": posts,
+            "posts": tag.posts,
             "tags": tags,
         },
     )

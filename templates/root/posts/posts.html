@@ -52,7 +52,7 @@
                         {{post.likes|length}}
                     </td>
                     <td onclick="window.location.href='{% url 'root:post_details' post.id %}'">
-                        {{post.comments}}
+                        {{post.comments|length}}
                     </td>
                     <td onclick="window.location.href='{% url 'root:post_details' post.id %}'">
                         {% if post.tags != "" %}
