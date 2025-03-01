@@ -1,13 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import redirect, render
 from django.urls import reverse
+
+from .forms import LoginForm, SigninForm
 
 
 def login_view(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = LoginForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
@@ -20,19 +21,19 @@ def login_view(request):
         else:
             return render(request, "users/login.html", {"form": form})
     else:
-        form = AuthenticationForm()
+        form = LoginForm()
     return render(request, "users/login.html", {"form": form})
 
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = SigninForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect(reverse("home:home_images"))
     else:
-        form = UserCreationForm()
+        form = SigninForm()
     return render(request, "users/register.html", {"form": form})
 
 
