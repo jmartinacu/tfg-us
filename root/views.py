@@ -6,7 +6,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from django.core.serializers import serialize
-from django.db import connection
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -18,22 +17,10 @@ from root.forms import CreateTag, EditPost, StaffCreationForm, UploadPost
 @permission_required(perm="root.view_root", raise_exception=True)
 def root(request):
     posts = Post.objects.all()
-    is_postgresql = connection.vendor == "postgresql"
-    if is_postgresql:
-        from django.contrib.postgres.aggregates import StringAgg
-
-        posts.annotate(
-            tags=StringAgg("tags__name", delimiter=","),
-        )
-    else:
-        for post in posts:
-            post.tags = ",".join(tag.name for tag in post.tags)
     return render(
         request,
         "root/posts/posts.html",
-        {
-            "posts": posts,
-        },
+        {"posts": posts},
     )
 
 

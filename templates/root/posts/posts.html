@@ -55,8 +55,8 @@
                         {{post.comments|length}}
                     </td>
                     <td onclick="window.location.href='{% url 'root:post_details' post.id %}'">
-                        {% if post.tags != "" %}
-                            {{post.tags}}
+                        {% if post.tag_names != "" %}
+                            {{post.tag_names}}
                         {% else %}
                             No tiene etiquetas
                         {% endif %}

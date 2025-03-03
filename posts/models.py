@@ -26,6 +26,12 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, related_name="likes", blank=True)
     description = models.TextField(blank=True, null=True)
 
+    def tag_names(self):
+        res = ""
+        if self.tags.exists():
+            res = ", ".join([tag.name for tag in self.tags.all()])
+        return res
+
     def create_sources(self, files):
         sources: list[Source] = []
         for file in files:
