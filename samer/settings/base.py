@@ -129,11 +129,3 @@ AUTH_ACTION_MODELS = [
     "Tag",
     "Question",
 ]
-
-# AUTH_INCLUDE_PATHS = [
-#     {
-#         "name": "questions:toxic",
-#         "type": "dynamic",
-#         "args": ["66dd91747f069f8dd89be45a"],
-#     },
-# ]

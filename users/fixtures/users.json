@@ -5,6 +5,8 @@
         "fields": {
             "username": "admin",
             "email": "admin@admin.com",
+            "first_name": "admin",
+            "last_name": "admin",
             "is_staff": true,
             "is_superuser": true,
             "is_active": true,
@@ -17,6 +19,8 @@
         "fields": {
             "username": "samer",
             "email": "samer@samer.com",
+            "first_name": "Joaquín",
+            "last_name": "Martín",
             "is_staff": false,
             "is_superuser": false,
             "is_active": true,

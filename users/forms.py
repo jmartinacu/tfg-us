@@ -10,7 +10,7 @@ class LoginForm(AuthenticationForm):
             {"class": "input", "id": "user", "placeholder": " "}
         )
         self.fields["password"].widget.attrs.update(
-            {"class": "input", "id": "pwd", "placeholder": " "}
+            {"class": "input", "id": "password", "placeholder": " "}
         )
 
 
@@ -22,10 +22,10 @@ class SigninForm(UserCreationForm):
             {"class": "input", "id": "user", "placeholder": " "}
         )
         self.fields["password1"].widget.attrs.update(
-            {"class": "input", "id": "pwd", "placeholder": " "}
+            {"class": "input", "id": "password1", "placeholder": " "}
         )
         self.fields["password2"].widget.attrs.update(
-            {"class": "input", "id": "pwd2", "placeholder": " "}
+            {"class": "input", "id": "password2", "placeholder": " "}
         )
 
 
