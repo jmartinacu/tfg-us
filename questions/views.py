@@ -103,6 +103,17 @@ def delete(request, question_id):
     return redirect(reverse("questions:questions"))
 
 
+@permission_required(perm="root.view_root", raise_exception=True)
+def add_remove_toxic(request, question_id: str):
+    question = Question.objects.filter(id=question_id).first()
+    if question is None:
+        messages.error(request, "Pregunta no encontrada")
+        return redirect(reverse("root:questions"))
+    question.toxic = not question.toxic
+    question.save()
+    return redirect(reverse("root:question_details", args=[question_id]))
+
+
 def add_remove_like(request, question_id):
     if not request.user.is_authenticated:
         messages.warning(request, "Necesitas tener una sesión")

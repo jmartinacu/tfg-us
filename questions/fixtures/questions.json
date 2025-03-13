@@ -168,7 +168,7 @@
         "fields": {
             "title": "Planificación financiera",
             "content": "¿Cómo puedo empezar a planificar mi presupuesto personal?",
-            "author": 1,
+            "author": 2,
             "resolve": false,
             "archive": false,
             "toxic": false,
@@ -185,7 +185,7 @@
         "fields": {
             "title": "Cuidado de plantas",
             "content": "¿Cuáles son los cuidados básicos para mantener una planta de interior saludable?",
-            "author": 1,
+            "author": 2,
             "resolve": true,
             "archive": false,
             "toxic": false,
