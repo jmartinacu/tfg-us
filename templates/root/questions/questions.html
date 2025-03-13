@@ -10,7 +10,7 @@
 {% block content %}
     <div class="posts-header">
         <div class="post-header-content">
-            <h3>Preguntas: {{questions|length}}</h3>
+            <h3>Preguntas: {{questions.all|length}}</h3>
             <div class="dropdown">
                 <button class="dropbtn" onmouseover="toggleActions()"><i class="material-icons">settings</i></button>
                 <div class="dropdown-content">
@@ -36,7 +36,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for question in questions %}
+            {% for question in questions.all %}
                 <tr>
                     <td>
                         <input type="checkbox" onclick="toggleSelection(this, '{{question.id}}')">
@@ -55,7 +55,7 @@
                         {% endif %}
                     </td>
                     <td onclick="window.location.href='{% url 'root:question_details' question.id %}'">
-                        {{question.likes|length}}
+                        {{question.likes.all|length}}
                     </td>
                     <td onclick="window.location.href='{% url 'root:question_details' question.id %}'">
                         {% if question.archive %}

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 
 from posts.models import Post
 
@@ -19,10 +19,32 @@ class StaffCreationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.is_staff = True
         if commit:
             user.save()
+            samer_staff = Group.objects.get(name="Samer Staff")
+            user.groups.add(samer_staff)
         return user
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs.update(
+            {"class": "input", "id": "username", "placeholder": " "}
+        )
+        self.fields["password1"].widget.attrs.update(
+            {"class": "input", "id": "password1", "placeholder": " "}
+        )
+        self.fields["password2"].widget.attrs.update(
+            {"class": "input", "id": "password2", "placeholder": " "}
+        )
+        self.fields["email"].widget.attrs.update(
+            {"class": "input", "id": "email", "placeholder": " "}
+        )
+        self.fields["first_name"].widget.attrs.update(
+            {"class": "input", "id": "first_name", "placeholder": " "}
+        )
+        self.fields["last_name"].widget.attrs.update(
+            {"class": "input", "id": "last_name", "placeholder": " "}
+        )
 
 
 class MultipleFileInput(forms.ClearableFileInput):

@@ -32,36 +32,38 @@
             </tr>
         </thead>
         <tbody>
-            {% for user in users %}
+            {% for user_root in users %}
                 <tr>
                     <td>
-                        <input type="checkbox" onclick="toggleSelection(this, '{{user.id}}')">
+                        <input type="checkbox" onclick="toggleSelection(this, '{{user_root.id}}')">
                     </td>
-                    <td onclick="window.location.href='{% url 'root:user_details' user.id %}'">
-                        {% if user.is_staff %}
+                    <td onclick="window.location.href='{% url 'root:user_details' user_root.id %}'">
+                        {% if user_root.is_staff %}
                             admin
+                        {% elif user_root.is_samer_staff %}
+                            staff
                         {% endif %}
                     </td>
-                    <td onclick="window.location.href='{% url 'root:user_details' user.id %}'">
-                        {{user.username}}
+                    <td onclick="window.location.href='{% url 'root:user_details' user_root.id %}'">
+                        {{user_root.username}}
                     </td>
-                    <td onclick="window.location.href='{% url 'root:user_details' user.id %}'">
-                        {% if user.is_staff %}
-                            {{user.email}}
+                    <td onclick="window.location.href='{% url 'root:user_details' user_root.id %}'">
+                        {% if user_root.is_samer_staff %}
+                            {{user_root.email}}
                         {% else %}
                             No hay datos
                         {% endif %}
                     </td>
                     <td onclick="window.location.href='{% url 'root:user_details' user.id %}'">
-                        {% if user.is_staff %}
-                            {{user.first_name}}
+                        {% if user_root.is_samer_staff %}
+                            {{user_root.first_name}}
                         {% else %}
                             No hay datos
                         {% endif %}
                     </td>
                     <td onclick="window.location.href='{% url 'root:user_details' user.id %}'">
-                        {% if user.is_staff %}
-                            {{user.last_name}}
+                        {% if user_root.is_samer_staff %}
+                            {{user_root.last_name}}
                         {% else %}
                             No hay datos
                         {% endif %}

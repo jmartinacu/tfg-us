@@ -9,7 +9,7 @@
 {% block title %}CREATE ADMIN{% endblock title %}
 
 {% block content %}
-    <div class="container login-container">
+    <div class="container login-container" style="margin-top: 20px;">
         <form method="post" action="{% url "root:create_admin" %}" class="form">
             {% csrf_token %}
             <div class="title">Administrador</div>
@@ -19,20 +19,20 @@
                 <div class="cut"></div>
                 <label for="user" class="placeholder">Usuario</label>
             </div>
-            <div class="input-container ic1">
+            <div class="input-container ic2">
                 {{form.email}}
                 <div class="cut"></div>
                 <label for="email" class="placeholder">Email</label>
             </div>
-            <div class="input-container ic1">
+            <div class="input-container ic2">
                 {{form.first_name}}
                 <div class="cut"></div>
                 <label for="name" class="placeholder">Nombre</label>
             </div>
-            <div class="input-container ic1">
-                {{form.second_name}}k
+            <div class="input-container ic2">
+                {{form.last_name}}
                 <div class="cut"></div>
-                <label for="surname" class="placeholder">Apellido</label>
+                <label for="last_name" class="placeholder">Apellido</label>
             </div>
             <div class="input-container ic2">
                 {{form.password1}}
@@ -49,5 +49,14 @@
             {% endfor %}
             <button type="submit" class="submit">Crea un admin</button>
         </form>
+        {% if form.errors %}
+            <div style="color: red;">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        <li>{{ field }}: {{ errors|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 {% endblock content %}

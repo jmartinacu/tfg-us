@@ -2,7 +2,6 @@ import json
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from django.core.serializers import serialize
@@ -27,6 +26,8 @@ def root(request):
 @permission_required(perm="root.view_root", raise_exception=True)
 def users(request):
     users = User.objects.all()
+    for user in users:
+        user.is_samer_staff = user.has_perm("root.view_root")
     return render(
         request,
         "root/users/users.html",
@@ -74,8 +75,7 @@ def create_admin(request):
                         "form": form,
                     },
                 )
-            user = form.save()
-            login(request, user)
+            form.save()
             return redirect(reverse("root:users"))
     else:
         form = StaffCreationForm()
@@ -94,7 +94,7 @@ def upload_post(request):
         form = UploadPost(request.POST, request.FILES)
         if form.is_valid():
             try:
-                result = Post.objects.create(
+                post = Post.objects.create(
                     files=form.cleaned_data["file"],
                     name=form.cleaned_data["name"],
                     description=form.cleaned_data["des"],
@@ -102,7 +102,7 @@ def upload_post(request):
                 return redirect(
                     reverse(
                         "root:post_details",
-                        kwargs={"post_id": result["id"]},
+                        kwargs={"post_id": post.id},
                     )
                 )
             except ValueError as e:

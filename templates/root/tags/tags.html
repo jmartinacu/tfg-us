@@ -39,7 +39,7 @@
                         {{tag.name}}
                     </td>
                     <td onclick="window.location.href='{% url 'root:tag_details' tag.id %}'">
-                        {{tag.posts|length}}
+                        {{tag.posts.all|length}}
                     </td>
                 </tr>
             {% endfor %}
