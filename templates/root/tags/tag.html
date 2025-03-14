@@ -25,7 +25,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for post in tag.posts %}
+                    {% for post in tag.posts.all %}
                         <tr>
                             <td>
                                 {{post.name}}
