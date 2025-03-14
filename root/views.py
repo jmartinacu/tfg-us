@@ -159,19 +159,38 @@ def tag_action(request):
             ids: str = form.cleaned_data["ids"]
             file = form.cleaned_data["file"]
             posts = Post.objects.filter(id__in=ids.split(","))
-            Tag.create(
-                name=name,
-                file=file,
-                posts=posts,
-            )
-            return redirect(reverse("root:root"))
+            try:
+                tag = Tag.objects.create(
+                    name=name,
+                    file=file,
+                )
+                tag.posts.set(posts)
+                return redirect(reverse("root:root"))
+            except ValueError as e:
+                render_create_tag = render(
+                    request,
+                    "root/tags/create.html",
+                    {
+                        "form": form,
+                        "posts": posts,
+                    },
+                )
+                if str(e) == "NoFile":
+                    messages.warning(
+                        request,
+                        "El archivo tiene que ser una imagen o video",
+                    )
+                    return render_create_tag
         return redirect("root:root")
     elif request.method == "GET":
         post_ids = request.GET.get("post_ids", [])
         post_ids = post_ids.split(",")
         posts = Post.objects.filter(id__in=post_ids)
+        if posts.count() != len(post_ids):
+            messages.error(request, "Publicaciones no encontradas")
+            return redirect(reverse("root:root"))
         form = CreateTag(
-            ids=",".join(post.id for post in posts),
+            ids=",".join(post_ids),
             init=True,
         )
         return render(

@@ -214,6 +214,20 @@ class Comment(models.Model):
         return f"Comment for {self.post.name}"
 
 
+class TagManager(models.Manager):
+
+    def create(self, *args, **kwargs):
+        file = kwargs.pop("file", None)
+        if file is None:
+            raise ValueError("NoFile")
+        post_bytes = file.read()
+        file.seek(0)
+        src = Source(file=file, file_bytes=post_bytes, type="tag")
+        src.save()
+        kwargs["source"] = src
+        return super().create(*args, **kwargs)
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=255)
     posts = models.ManyToManyField(Post, related_name="tags")
@@ -223,13 +237,7 @@ class Tag(models.Model):
         related_name="tag",
     )
 
-    def create(self, *args, **kwargs):
-        file = kwargs.get("file", None)
-        post_bytes = file.read()
-        file.seek(0)
-        src = Source(file=file, file_bytes=post_bytes, src_type="tag").save()
-        kwargs["source"] = src
-        super().create(*args, **kwargs)
+    objects = TagManager()
 
     def __str__(self):
         return self.name

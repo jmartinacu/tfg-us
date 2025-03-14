@@ -124,6 +124,13 @@ class CreateTag(forms.Form):
         ),
     )
 
+    def __init__(self, *args, **kwargs):
+        ids = kwargs.pop("ids", "")
+        init = kwargs.pop("init", False)
+        super().__init__(*args, **kwargs)
+        if init:
+            self.fields["ids"].initial = ids
+
 
 class EditPost(forms.Form):
     file = MultipleFileField(
