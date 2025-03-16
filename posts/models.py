@@ -10,10 +10,14 @@ import requests
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
-from samer.bucket import delete_file, upload_file, upload_thumbnail
+from home.models import ProfileInformation
+from samer.bucket import delete_file as bucket_delete
+from samer.bucket import upload_file, upload_thumbnail
 
 
 class FilesTypes(models.TextChoices):
@@ -76,6 +80,34 @@ class Post(models.Model):
         return self.name
 
 
+class TagManager(models.Manager):
+
+    def create(self, *args, **kwargs):
+        file = kwargs.pop("file", None)
+        if file is None:
+            raise ValueError("NoFile")
+        tag = super().create(*args, **kwargs)
+        post_bytes = file.read()
+        file.seek(0)
+        src = Source(file=file, file_bytes=post_bytes, tag=tag)
+        src.save()
+        return tag
+
+    def delete(self):
+        # Execute delete for each Tag instance and its related sources
+        return super().delete()
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=255)
+    posts = models.ManyToManyField(Post, related_name="tags")
+
+    objects = TagManager()
+
+    def __str__(self):
+        return self.name
+
+
 class Source(models.Model):
     url = models.URLField()
     thumbnail_url = models.URLField(blank=True, null=True)
@@ -86,6 +118,18 @@ class Source(models.Model):
     )
     extension = models.CharField(max_length=255)
     mime_type = models.CharField(max_length=255)
+    tag = models.ForeignKey(
+        Tag,
+        on_delete=models.CASCADE,
+        related_name="tag_source",
+        null=True,
+    )
+    profile = models.ForeignKey(
+        ProfileInformation,
+        on_delete=models.CASCADE,
+        related_name="profile_source",
+        null=True,
+    )
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
@@ -135,7 +179,6 @@ class Source(models.Model):
             return super().__init__(*args, **kwargs)
         file = kwargs.pop("file", None)
         file_bytes = kwargs.pop("file_bytes", None)
-        src_type = kwargs.pop("type", "post")
         if file is None or file_bytes is None:
             raise ValueError("NoFile")
         full_file_name = str(file.name)
@@ -150,10 +193,14 @@ class Source(models.Model):
             )
             else FilesTypes.VIDEO
         )
-        if src_type == "tag":
+        if "tag" in kwargs and kwargs["tag"] is not None:
             if file_type == FilesTypes.VIDEO:
                 raise ValueError("FileError")
             object_name = f"tags/{full_file_name}"
+        elif "profile" in kwargs and kwargs["profile"] is not None:
+            if file_type == FilesTypes.VIDEO:
+                raise ValueError("FileError")
+            object_name = f"{full_file_name}"
         else:
             object_name = (
                 f"imagenes/{full_file_name}"
@@ -177,21 +224,24 @@ class Source(models.Model):
         kwargs["thumbnail_url"] = thumbnail_url
         kwargs["extension"] = ext
         kwargs["mime_type"] = mime_type
-        super().__init__(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        parsed_url = urlparse(self.url)
-        if self.thumbnail_url:
-            parsed_thumb_url = urlparse(self.thumbnail_url)
-            if settings.AWS_BUCKET_NAME in parsed_thumb_url.netloc:
-                delete_file(parsed_thumb_url.path[1:])
-        if settings.AWS_BUCKET_NAME not in parsed_url.netloc:
-            return super().delete(*args, **kwargs)
-        delete_file(parsed_url.path[1:])
-        super().delete(*args, **kwargs)
+        return super().__init__(*args, **kwargs)
 
     def __str__(self):
         return self.name
+
+
+@receiver(post_delete, sender=Source)
+def delete_file(sender, instance, **kwargs):
+    if not instance.url:
+        return
+    parsed_url = urlparse(instance.url)
+    if instance.thumbnail_url:
+        parsed_thumb_url = urlparse(instance.thumbnail_url)
+        if settings.AWS_BUCKET_NAME in parsed_thumb_url.netloc:
+            bucket_delete(parsed_thumb_url.path[1:])
+    if settings.AWS_BUCKET_NAME not in parsed_url.netloc:
+        return
+    bucket_delete(parsed_url.path[1:])
 
 
 class Comment(models.Model):
@@ -212,32 +262,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment for {self.post.name}"
-
-
-class TagManager(models.Manager):
-
-    def create(self, *args, **kwargs):
-        file = kwargs.pop("file", None)
-        if file is None:
-            raise ValueError("NoFile")
-        post_bytes = file.read()
-        file.seek(0)
-        src = Source(file=file, file_bytes=post_bytes, type="tag")
-        src.save()
-        kwargs["source"] = src
-        return super().create(*args, **kwargs)
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=255)
-    posts = models.ManyToManyField(Post, related_name="tags")
-    source = models.ForeignKey(
-        Source,
-        on_delete=models.CASCADE,
-        related_name="tag",
-    )
-
-    objects = TagManager()
-
-    def __str__(self):
-        return self.name

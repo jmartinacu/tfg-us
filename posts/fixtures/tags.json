@@ -4,8 +4,7 @@
         "pk": 1,
         "fields": {
             "name": "Comida",
-            "posts": [1, 2, 3],
-            "source": 22
+            "posts": [1, 2, 3]
         }
     },
     {
@@ -13,8 +12,7 @@
         "pk": 2,
         "fields": {
             "name": "Diversión",
-            "posts": [4, 5, 6],
-            "source": 23
+            "posts": [4, 5, 6]
         }
     }
 ]

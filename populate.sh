@@ -11,10 +11,10 @@ FIXTURES=(
     "groups.json"
     "users.json"
     "posts.json"
-    "sources.json"
-    "comments.json"
     "tags.json"
     "profile.json"
+    "sources.json"
+    "comments.json"
     "answers.json"
     "questions.json"
 )
