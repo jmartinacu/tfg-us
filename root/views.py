@@ -166,7 +166,9 @@ def tag_action(request):
                 )
                 tag.posts.set(posts)
                 return redirect(reverse("root:root"))
-            except ValueError as e:
+            except (
+                ValueError
+            ) as e:  # TODO: CONTROLAR TODOS LOS ERRORES QUE PUEDEN OCURRIR
                 render_create_tag = render(
                     request,
                     "root/tags/create.html",

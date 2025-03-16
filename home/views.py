@@ -47,7 +47,7 @@ def home_edit_profile(request):
     profile = ProfileInformation.objects.first()
     if request.method == "POST" and "image_url" in request.FILES:
         profile_form = ProfileForm(request.POST, request.FILES)
-        if profile_form.is_valid():
+        if profile_form.is_valid():  # TODO REVISAR ESTO
             app_name = profile_form.cleaned_data["app_name"]
             app_real_name = profile_form.cleaned_data["app_real_name"]
             descriptions = profile_form.cleaned_data["descriptions"]

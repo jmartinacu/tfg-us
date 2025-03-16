@@ -13,7 +13,7 @@
 	<div class="container">
 		<div class="profile">
 			<div class="profile-image">
-				<img src={{profile.source.url}} alt="Samer Logo">
+				<img src={{profile.profile_source.first.url}} alt="Samer Logo">
 			</div>
 			<div class="profile-user-settings">
 				<h1 class="profile-user-name">{{profile.name}}</h1>
@@ -34,7 +34,7 @@
     		<div class="carousel-wrapper">
         		<div class="carousel-images">
 					{% for tag in tags %}
-						<a href="{% url "home:home_tag" tag.id%}"><img src="{{tag.source.url}}" alt="{{tag.name}}"></a>
+						<a href="{% url "home:home_tag" tag.id%}"><img src="{{tag.tag_source.first.url}}" alt="{{tag.name}}"></a>
 					{% endfor %}
         		</div>
     		</div>

@@ -11,7 +11,7 @@
 {% block content %}
     <section class="tag-details">
         <div class="tag-visual-container">
-		    <img src={{tag.source.url}} alt={{tag.name}}>
+		    <img src={{tag.tag_source.first.url}} alt={{tag.name}}>
         </div>
         <div class="tag-info">
             <span><h4>Name: </h4>{{tag.name}}</span>
