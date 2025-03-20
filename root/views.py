@@ -166,9 +166,7 @@ def tag_action(request):
                 )
                 tag.posts.set(posts)
                 return redirect(reverse("root:root"))
-            except (
-                ValueError
-            ) as e:  # TODO: CONTROLAR TODOS LOS ERRORES QUE PUEDEN OCURRIR
+            except ValueError as e:
                 render_create_tag = render(
                     request,
                     "root/tags/create.html",
@@ -177,12 +175,27 @@ def tag_action(request):
                         "posts": posts,
                     },
                 )
-                if str(e) == "NoFile":
+                if str(e) == "DuplicateName":
+                    messages.warning(
+                        request,
+                        "Ya hay una publicación con ese nombre",
+                    )
+                elif str(e) == "NoFiles":
                     messages.warning(
                         request,
                         "El archivo tiene que ser una imagen o video",
                     )
-                    return render_create_tag
+                elif str(e) == "FilesError":
+                    messages.warning(
+                        request,
+                        "Solamente se puede subir un video por publicación",
+                    )
+                elif str(e) == "HttpError":
+                    messages.warning(
+                        request,
+                        "El archivo tiene que ser una imagen o video",
+                    )
+                return render_create_tag
         return redirect("root:root")
     elif request.method == "GET":
         post_ids = request.GET.get("post_ids", [])
@@ -307,25 +320,22 @@ def edit_post(request, post_id):
                         request,
                         "Ya hay una publicación con ese nombre",
                     )
-                    return render_edit
                 elif str(e) == "NoFiles":
                     messages.warning(
                         request,
                         "El archivo tiene que ser una imagen o video",
                     )
-                    return render_edit
                 elif str(e) == "FilesError":
                     messages.warning(
                         request,
                         "Solamente se puede subir un video por publicación",
                     )
-                    return render_edit
                 elif str(e) == "HttpError":
                     messages.warning(
                         request,
                         "El archivo tiene que ser una imagen o video",
                     )
-                    return render_edit
+                return render_edit
             return redirect(
                 reverse(
                     "root:post_details",
