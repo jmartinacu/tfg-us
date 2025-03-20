@@ -15,7 +15,6 @@ from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
-from home.models import ProfileInformation
 from samer.bucket import delete_file as bucket_delete
 from samer.bucket import upload_file, upload_thumbnail
 
@@ -93,10 +92,6 @@ class TagManager(models.Manager):
         src.save()
         return tag
 
-    def delete(self):
-        # Execute delete for each Tag instance and its related sources
-        return super().delete()
-
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
@@ -125,7 +120,7 @@ class Source(models.Model):
         null=True,
     )
     profile = models.ForeignKey(
-        ProfileInformation,
+        "home.ProfileInformation",
         on_delete=models.CASCADE,
         related_name="profile_source",
         null=True,
