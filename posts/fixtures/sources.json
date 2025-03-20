@@ -10,8 +10,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 1,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -25,8 +25,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 1,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -40,8 +40,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 1,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -55,8 +55,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 2,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -70,8 +70,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 3,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -85,8 +85,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 4,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -100,8 +100,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 5,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -115,8 +115,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 6,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -130,8 +130,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 7,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -145,8 +145,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 8,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -160,8 +160,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 9,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -175,8 +175,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 10,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -190,8 +190,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 11,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -205,8 +205,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": 12,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -220,8 +220,8 @@
             "extension": ".mp4",
             "mime_type": "video/mp4",
             "post": 13,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -235,8 +235,8 @@
             "extension": ".mp4",
             "mime_type": "video/mp4",
             "post": 14,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -250,8 +250,8 @@
             "extension": ".mp4",
             "mime_type": "video/mp4",
             "post": 15,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -265,8 +265,8 @@
             "extension": ".mp4",
             "mime_type": "video/mp4",
             "post": 16,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -280,8 +280,8 @@
             "extension": ".mp4",
             "mime_type": "video/mp4",
             "post": 17,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -295,8 +295,8 @@
             "extension": ".mp4",
             "mime_type": "video/mp4",
             "post": 18,
-            "tag": null,
-            "profile": null
+            "tag_source": null,
+            "profile_source": null
         }
     },
     {
@@ -310,8 +310,8 @@
             "extension": ".jpg",
             "mime_type": "image/jpeg",
             "post": null,
-            "tag": null,
-            "profile": 1
+            "tag_source": null,
+            "profile_source": 1
         }
     },
     {
@@ -325,23 +325,23 @@
             "extension": ".jpeg",
             "mime_type": "image/jpeg",
             "post": null,
-            "tag": 1,
-            "profile": null
+            "tag_source": 1,
+            "profile_source": null
         }
     },
     {
         "model": "posts.source",
         "pk": 23,
         "fields": {
-            "url": "https://samerbucket2.s3.eu-central-1.amazonaws.com/tags/globos.jpeg",
+            "url": "https://samerbucket2.s3.eu-central-1.amazonaws.com/tag/globos.jpeg",
             "thumbnail_url": null,
             "name": "globos_aws",
             "type": "IM",
             "extension": ".jpeg",
             "mime_type": "image/jpeg",
             "post": null,
-            "tag": 2,
-            "profile": null
+            "tag_source": 2,
+            "profile_source": null
         }
     }
 ]
