@@ -333,7 +333,7 @@
         "model": "posts.source",
         "pk": 23,
         "fields": {
-            "url": "https://samerbucket2.s3.eu-central-1.amazonaws.com/tag/globos.jpeg",
+            "url": "https://samerbucket2.s3.eu-central-1.amazonaws.com/tags/globos.jpeg",
             "thumbnail_url": null,
             "name": "globos_aws",
             "type": "IM",

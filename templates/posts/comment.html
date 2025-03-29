@@ -23,11 +23,11 @@
                 </p>
             {% endif %}
             <h3>Comentarios:</h3>
-            {% if comments|length == 0 %}
+            {% if comments.all|length == 0 %}
                 <p class="no-comment-list">No hay comentarios</p>
             {% else %}
                 <ul class="comment-list">
-                {% for comment in comments %}
+                {% for comment in comments.all %}
                     <li>
                         <div class="comment-list-item">
                             <strong>{{comment.author.username}}</strong>
@@ -41,7 +41,7 @@
                 </ul>
             {% endif %}
             <h3 class="">Añade un comentario:</h3>
-            <form class="comment-form" id="createCommentForm" action="{% url 'posts:comment' post.sources.0.type %}" method="post">
+            <form class="comment-form" id="createCommentForm" action="{% url 'posts:comment' post.id post.sources.all.0.type %}" method="post">
                 {% csrf_token %}
                 <div class="textarea-container">
                     {{form.comment}}

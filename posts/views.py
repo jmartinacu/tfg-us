@@ -84,7 +84,6 @@ def comments(request, post_id, post_type):
                 post=post,
                 author=request.user,
             )
-    mime_types = [source.get_mime_type() for source in post.sources]
     comment_form = CreateCommentForm()
     comments = Comment.objects.filter(post=post, toxic=False)
     return render(
@@ -92,7 +91,6 @@ def comments(request, post_id, post_type):
         template,
         {
             "post": post,
-            "mime_types": mime_types,
             "comments": comments,
             "form": comment_form,
         },

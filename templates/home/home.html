@@ -75,10 +75,10 @@
 				<div class="gallery-item-info">
 					<ul>
 						<li class="gallery-item-likes">
-							<span class="visually-hidden material-icons">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i><a href="{% url 'posts:add_remove_like' post.id %}?redirect={% if post.sources.first.type == "IM" %}home:home_images{% else %}home:home_videos{% endif %}">{{ post.likes|length }} <i class="material-icons">favorite</i></a>
+							<span class="visually-hidden material-icons">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i><a href="{% url 'posts:add_remove_like' post.id %}?redirect={% if post.sources.first.type == "IM" %}home:home_images{% else %}home:home_videos{% endif %}">{{ post.likes.all|length }} <i class="material-icons">favorite</i></a>
 						</li>
 						<li class="gallery-item-comments">
-							<span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i><a href="{% url 'posts:comment' post.id post.sources.first.type %}">{{post.comments|length}} <i class="material-icons">chat_bubble</i></a>
+							<span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i><a href="{% url 'posts:comment' post.id post.sources.first.type %}">{{post.comments.all|length}} <i class="material-icons">chat_bubble</i></a>
 						</li>
 					</ul>
 				</div>

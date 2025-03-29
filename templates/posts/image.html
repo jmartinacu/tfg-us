@@ -6,17 +6,17 @@
 {% endblock subhead %}
 
 {% block url_content %}
-	{% if post.sources|length == 1%}
+	{% if post.sources.all|length == 1%}
 		<img src={{post.sources.0.url}} alt={{post.name}}>
 	{% else %}
 		<div class="slider-wrapper">
 			<div class="slider">
-				{% for source in post.sources %}
+				{% for source in post.sources.all %}
 				    <img id="slide-{{source.name}}-{{forloop.counter}}" src={{source.url}} class="slide" alt="{{source.name}}-slide-{{forloop.counter}}">
 				{% endfor %}
 			</div>
 			<div class="dots">
-				{% for source in post.sources %}
+				{% for source in post.sources.all %}
 					<a href="#slide-{{source.name}}-{{forloop.counter}}"></a>
 				{% endfor %}
 			</div>
