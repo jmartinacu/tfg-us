@@ -7,7 +7,7 @@
 
 {% block url_content %}
 	{% if post.sources.all|length == 1%}
-		<img src={{post.sources.0.url}} alt={{post.name}}>
+		<img src={{post.sources.all.0.url}} alt={{post.name}}>
 	{% else %}
 		<div class="slider-wrapper">
 			<div class="slider">

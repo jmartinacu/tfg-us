@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from posts.forms import CreateCommentForm
-from posts.models import Comment, Post, Tag
+from posts.models import Comment, FilesTypes, Post, Tag
 
 
 def add_remove_like(request, post_id):
@@ -22,7 +22,9 @@ def add_remove_like(request, post_id):
         messages.error(request, f"Redirección {redirect_view} no permitida")
     if redirect_view == "posts:comment":
         post_type: str = request.GET.get("type", "")
-        if post_type == "" or post_type not in ["image", "video"]:
+        if post_type == "" or post_type not in [
+            choice[0] for choice in FilesTypes.choices
+        ]:
             messages.error(request, "Tipo de publicación incorrecto")
             return redirect(reverse("home:home_images"))
     post = Post.objects.filter(id=post_id).first()
@@ -118,7 +120,6 @@ def remove_comment(request, post_id: int, comment_id: int):
     comment_form = CreateCommentForm()
     comments = Comment.objects.filter(post=post, toxic=False)
     template = "posts/image.html"
-    mime_types = [source.get_mime_type() for source in post.sources]
     if post_type == "video":
         template = "posts/video.html"
     return render(
@@ -126,7 +127,6 @@ def remove_comment(request, post_id: int, comment_id: int):
         template,
         {
             "post": post,
-            "mime_types": mime_types,
             "comments": comments,
             "form": comment_form,
         },

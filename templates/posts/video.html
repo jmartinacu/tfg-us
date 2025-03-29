@@ -5,6 +5,6 @@
 
 {% block url_content %}
     <video controls>
-        <source src={{post.sources.all.0.url}} type={{post.sources.all.0.mime_type}}>
+        <source src={{post.sources.first.url}} type={{post.sources.first.mime_type}}>
     </video>
 {% endblock url_content %}
