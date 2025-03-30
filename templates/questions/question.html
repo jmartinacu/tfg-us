@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load math %}
 
 {% block head %}
     <link rel="stylesheet" href={% static "css/question.css" %}>
@@ -21,21 +20,21 @@
     <section class="question-content">
         <div class="question-likes">
             <a href="{% url "questions:add_remove_like" question.id %}">
-                <i class="material-icons md-60" {% if user_auth.is_login and user_auth.user_auth.id in question.likes %}style="color: var(--secondary-color);"{% endif %}>favorite</i>
+                <i class="material-icons md-60" {% if user.is_authenticated and user in question.likes.all %}style="color: var(--secondary-color);"{% endif %}>favorite</i>
             </a>
         </div>
         <div class="question-answer">
             <h1>Respuesta:</h1>
             <br>
-            <p>{{question.answer.text}}</p>
+            <p>{{question.answer.content}}</p>
             <br>
             <div>
-                {% if user_auth.is_login and user_auth.user_auth.id in question.likes and question.likes|length > 2 %}
+                {% if user.is_authenticated and user in question.likes.all and question.likes.all|length > 2 %}
                     <p>Te gusta a ti y a <strong>{{question.likes|length|add:"-1"}}</strong> personas</p>
-                {% elif question.likes|length > 0 %}
-                    <p>Le gusta a <strong>{{question.likes|length}}</strong> {% if question.likes|length > 1 %}personas{% else %}persona{% endif %}</p>
+                {% elif question.likes.all|length > 0 %}
+                    <p>Le gusta a <strong>{{question.likes.all|length}}</strong> {% if question.likes.all|length > 1 %}personas{% else %}persona{% endif %}</p>
                 {% endif %}
-                <p>Vista <strong>{{question.views|length}}</strong> veces</p>
+                <p>Vista <strong>{{question.views.all|length}}</strong> veces</p>
             </div>
         </div>
     </section>

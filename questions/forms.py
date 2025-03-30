@@ -33,17 +33,7 @@ class CreateQuestionForm(forms.Form):
         ),
     )
 
-    author = forms.CharField(
-        widget=forms.HiddenInput(
-            attrs={
-                "class": "input author-form",
-                "id": "author",
-            }
-        ),
-    )
-
     def __init__(self, *args, **kwargs) -> None:
-        username = kwargs.pop("username", None)
         title = kwargs.pop("title", None)
         content = kwargs.pop("content", None)
         super().__init__(*args, **kwargs)
@@ -51,8 +41,6 @@ class CreateQuestionForm(forms.Form):
             self.fields["title"].initial = title
         if content is not None:
             self.fields["content"].initial = content
-        if username is not None:
-            self.fields["author"].initial = username
 
 
 class CreateQuestionAnswerForm(forms.Form):

@@ -2,6 +2,8 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
+from django.db import connection
+from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -19,12 +21,23 @@ def questions(request):
     elif option == "title":
         query = {"title__startswith": search}
     elif option == "tag":
-        query = {"tags__in": search.split(",")}
+        query = {"tags__contains": search.split(",")}
     elif option == "resolved":
         query = {"resolve": True}
     else:
         query = {}
-    questions = Question.objects.filter(**query)
+    questions = (
+        Question.objects.filter(**query)
+        .annotate(like_count=Count("likes"))
+        .order_by("-resolve", "-like_count")
+    )
+    if connection != "postgresql" and option == "tag":
+        search
+        questions = [
+            question
+            for question in Question.objects.all()
+            if any(tag in search.split(",") for tag in question.tags)
+        ]
     return render(
         request,
         "questions/questions_content.html",
@@ -34,14 +47,16 @@ def questions(request):
 
 def question(request, question_id):
     question = Question.objects.filter(id=question_id).first()
+    user = request.user
     if question is None:
         messages.error(
             request,
             "Pregunta no encontrada",
         )
         return redirect(reverse("questions:questions"))
-    if request.user.is_authenticated and request.user in question.views.all():
-        question.views.add(request.user)
+    if user.is_authenticated and user not in question.views.all():
+        question.views.add(user)
+        question.save()
     return render(request, "questions/question.html", {"question": question})
 
 
@@ -57,11 +72,9 @@ def create(request):
         if form.is_valid():
             title = form.cleaned_data["title"]
             content = form.cleaned_data["content"]
-            tags: str = form.cleaned_data["tags"]
-            author = form.cleaned_data["author"]
-            tags = tags.split(",")
+            tags = form.cleaned_data["tags"].split(",")
             unresolved_questions = Question.objects.filter(
-                author=author,
+                author=request.user,
                 resolve=False,
                 archive=False,
             )
@@ -72,7 +85,7 @@ def create(request):
                 )
                 return redirect(reverse("questions:questions"))
             Question.objects.create(
-                title=title, content=content, author=author, tags=tags
+                title=title, content=content, author=request.user, tags=tags
             )
             return redirect(reverse("questions:questions"))
         else:
@@ -83,7 +96,6 @@ def create(request):
         form = CreateQuestionForm(
             title=title,
             content=content,
-            username=request.user.username,
         )
         return render(request, "questions/create.html", {"form": form})
 
@@ -122,10 +134,11 @@ def add_remove_like(request, question_id):
     if question is None:
         messages.error(request, "Pregunta no encontrada")
         return redirect(reverse("questions:questions"))
-    if question.likes.filter(id=request.user.id).exists:
+    if question.likes.filter(id=request.user.id).exists():
         question.likes.remove(request.user)
     else:
         question.likes.add(request.user)
+    question.save()
     return redirect(reverse("questions:question", args=[question_id]))
 
 
