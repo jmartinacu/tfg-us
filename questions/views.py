@@ -8,7 +8,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from questions.forms import CreateQuestionAnswerForm, CreateQuestionForm
-from questions.models import Question
+from questions.models import Answer, Question
 
 
 def questions(request):
@@ -154,14 +154,20 @@ def create_answer(request, question_id, edit):
     if request.method == "POST":
         form = CreateQuestionAnswerForm(request.POST)
         if form.is_valid():
-            answer = form.cleaned_data["answer"]
-            admin = form.cleaned_data["admin"]
-            question.update(
-                answer={
-                    "admin": admin,
-                    "text": answer,
-                },
-            )
+            answer = question.answer
+            content = form.cleaned_data["answer"]
+            if answer is None:
+                answer = Answer.objects.create(
+                    content=content,
+                    author=request.user,
+                )
+                question.answer = answer
+                question.resolve = True
+                question.save()
+            else:
+                answer.content = content
+                answer.author = request.user
+                answer.save()
             return redirect(
                 reverse("root:question_details", args=[question.id]),
             )
@@ -173,12 +179,11 @@ def create_answer(request, question_id, edit):
             )
     else:
         form = CreateQuestionAnswerForm(
-            admin=request.user.username,
             question=question.content,
         )
         return render(
             request,
-            "root/questions/create_answer.html",
+            "questions/create_answer.html",
             {"form": form, "edit": edit, "question": question},
         )
 
@@ -198,5 +203,13 @@ def archive(request):
     if request.method == "POST":
         data = json.loads(request.body)
         question_ids = data.get("question_ids", [])
-        Question.objects.filter(id__in=question_ids).update(archive=True)
+        try:
+            question_ids = map(int, question_ids)
+        except (TypeError, ValueError):
+            messages.error(request, "Valores inválidos")
+            return redirect(reverse("root:questions"))
+        questions = Question.objects.filter(id__in=question_ids)
+        for question in questions:
+            question.archive = not question.archive
+            question.save()
         return redirect(reverse("root:questions"))

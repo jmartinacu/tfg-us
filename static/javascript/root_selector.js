@@ -84,7 +84,6 @@ function tagAction() {
 }
 
 function archiveAction(question_ids) {
-    console.log(question_ids)
     fetch(`${protocol}//${hostname}:${port}/questions/archive/`, {
         method: 'POST',
         headers: {
