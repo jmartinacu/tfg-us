@@ -22,7 +22,7 @@
         {% else %}
             <a href="{% url 'users:login' %}"><span><i class="material-icons">login</i><span class="icon-text">inicia sesión</span></a><br>
         {% endif %}
-        {% if user.is_staff %}
+        {% if perms.root.view_root %}
             <a href="{% url "root:root" %}"><span><i class="material-icons">admin_panel_settings</i><span class="icon-text">administrador</span></a><br>
         {% endif %}
     </aside>

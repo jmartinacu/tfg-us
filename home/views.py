@@ -47,15 +47,15 @@ def home_edit_profile(request):
     if request.method == "POST" and "image_url" in request.FILES:
         profile_form = ProfileForm(request.POST, request.FILES)
         if profile_form.is_valid():
-            app_name = profile_form.cleaned_data["app_name"]
-            app_real_name = profile_form.cleaned_data["app_real_name"]
+            name = profile_form.cleaned_data["name"]
+            secondary_name = profile_form.cleaned_data["secondary_name"]
             descriptions = profile_form.cleaned_data["descriptions"]
             url = profile_form.cleaned_data["url"]
             new_image = profile_form.cleaned_data["image_url"]
             profile.delete()
             ProfileInformation.objects.create(
-                app_name,
-                app_real_name,
+                name=name,
+                secondary_name=secondary_name,
                 descriptions=descriptions.splitlines(),
                 url=url,
                 file=new_image,

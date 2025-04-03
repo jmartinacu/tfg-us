@@ -15,15 +15,15 @@
 		<form method="post" action={% url "home:home_edit_profile" %} enctype="multipart/form-data" class="profile edit-form">
             {% csrf_token %}
 			<div class="profile-image">
-				<img src={{profile.image_url}} alt="Imagen perfil samer">
+				<img src={{profile.profile_source.first.url}} alt="Imagen perfil samer">
                 <i class="overlay-icon material-icons">upload</i>
                 {{form.image_url}}
 			</div>
 			<div class="profile-user-settings">
-				<h1 class="profile-user-name">{{form.app_name}}</h1>
+				<h1 class="profile-user-name">{{form.name}}</h1>
 			</div>
 			<div class="profile-bio">
-				<p><span class="profile-real-name">{{form.app_real_name}}</span></p>
+				<p><span class="profile-real-name">{{form.secondary_name}}</span></p>
                 <p>{{form.descriptions}}</p>
                 {{form.url}}
 			</div>

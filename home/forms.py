@@ -10,10 +10,10 @@ CHARACTERS_PER_LINE = 32
 
 
 class ProfileForm(forms.Form):
-    app_name: str = forms.CharField(
+    name = forms.CharField(
         widget=forms.TextInput(),
     )
-    app_real_name: str = forms.CharField(
+    secondary_name = forms.CharField(
         widget=forms.TextInput(attrs={"class": "app-real-name-form"}),
     )
     descriptions: str = forms.CharField(
@@ -43,11 +43,11 @@ class ProfileForm(forms.Form):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         profile = ProfileInformation.objects.first()
-        description_text = "\n".join(profile["descriptions"])
+        description_text = "\n".join(profile.descriptions)
         num_lines = sum(
             [
                 math.ceil(len(description) / CHARACTERS_PER_LINE)
-                for description in profile["descriptions"]
+                for description in profile.descriptions
             ]
         )
         self.fields["descriptions"].widget.attrs.update(
@@ -56,10 +56,10 @@ class ProfileForm(forms.Form):
             }
         )
         initial_values = {
-            "app_name": profile["app_name"],
-            "app_real_name": profile["app_real_name"],
+            "name": profile.name,
+            "secondary_name": profile.secondary_name,
             "descriptions": description_text,
-            "url": profile["url"],
+            "url": profile.url,
         }
         for field, initial_value in initial_values.items():
             if field in self.fields:
