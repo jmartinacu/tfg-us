@@ -1,7 +1,7 @@
 from celery import shared_task
 
 from questions.models import Question
-from samer.detox import predict_detoxify
+from samer.detoxify import predict_detoxify
 
 
 @shared_task
