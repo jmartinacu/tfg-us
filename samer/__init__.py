@@ -1,3 +1,3 @@
-from samer.tasks import app as celery_app
+from samer.celery import app
 
-__all__ = ("celery_app",)
+__all__ = ("app",)
