@@ -303,12 +303,12 @@
         "model": "posts.source",
         "pk": 21,
         "fields": {
-            "url": "https://samerbucket2.s3.eu-central-1.amazonaws.com/samerlogo.jpg",
+            "url": "https://samerbucket2.s3.eu-central-1.amazonaws.com/samerlogo.png",
             "thumbnail_url": null,
             "name": "samer_logo",
             "type": "IM",
-            "extension": ".jpg",
-            "mime_type": "image/jpeg",
+            "extension": ".png",
+            "mime_type": "image/png",
             "post": null,
             "tag": null,
             "profile": 1
