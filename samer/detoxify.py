@@ -1,8 +1,29 @@
+import os
 from typing import TypedDict
 
 from detoxify import Detoxify
 
-detoxify = Detoxify("multilingual", device="cpu")
+MULTILINGUAL_MODEL = "multilingual_debiased-0b549669.ckpt"
+
+CHECKPOINTS_PATH = f"/root/.cache/torch/hub/checkpoints/{MULTILINGUAL_MODEL}"
+
+torch_checkpoint_exists = os.path.exists(CHECKPOINTS_PATH)
+
+multilingual_model_path = (
+    CHECKPOINTS_PATH
+    if torch_checkpoint_exists
+    else os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "torch_model_cache",
+        MULTILINGUAL_MODEL,
+    )
+)
+
+detoxify = Detoxify(
+    model_type="multilingual",
+    checkpoint=multilingual_model_path,
+)
 
 
 class KeyDetoxify(TypedDict):

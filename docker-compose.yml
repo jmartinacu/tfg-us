@@ -15,6 +15,7 @@ services:
       - cache
     volumes:
       - .:/app
+      - ./torch_model_cache:/root/.cache/torch/hub/checkpoints
 
   celery:
     build:
@@ -31,6 +32,7 @@ services:
       - cache
     volumes:
       - .:/app
+      - ./torch_model_cache:/root/.cache/torch/hub/checkpoints
 
   celery-beat:
     build:
@@ -48,6 +50,7 @@ services:
     volumes:
       - .:/app
       - celerybeat-data:/app/celerybeat
+      - ./torch_model_cache:/root/.cache/torch/hub/checkpoints
 
   db:
     image: postgres:17-alpine

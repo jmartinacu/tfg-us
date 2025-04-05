@@ -1,0 +1,8 @@
+torch_model_cache/
+.env.example
+.env
+docker-compose.yml
+Dockerfile
+__pycache__/
+.vscode/
+celerybeat/
