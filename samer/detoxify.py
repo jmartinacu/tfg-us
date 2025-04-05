@@ -2,7 +2,7 @@ from typing import TypedDict
 
 from detoxify import Detoxify
 
-detoxify = Detoxify("multilingual")
+detoxify = Detoxify("multilingual", device="cpu")
 
 
 class KeyDetoxify(TypedDict):
