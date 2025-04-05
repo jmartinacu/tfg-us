@@ -21,7 +21,7 @@ RUN poetry config virtualenvs.create false && poetry install --no-root --no-inte
 
 COPY . /app/
 
-RUN chmod +x /app/launch.sh /app/populate.sh
+RUN chmod +x /app/deploy.sh /app/populate.sh
 
 EXPOSE 8000
 

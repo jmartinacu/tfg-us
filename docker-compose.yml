@@ -9,7 +9,7 @@ services:
     env_file:
       - path: ./.env
         required: true
-    command: bash /app/launch.sh
+    command: bash /app/deploy.sh
     depends_on:
       - db
       - cache
