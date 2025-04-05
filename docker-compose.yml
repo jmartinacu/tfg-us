@@ -1,0 +1,81 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: samer-web
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: ./.env
+        required: true
+    command: bash /app/launch.sh
+    depends_on:
+      - db
+      - cache
+    volumes:
+      - .:/app
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: samer-celery
+    env_file:
+      - path: ./.env
+        required: true
+    command: celery -A samer worker -l info
+    depends_on:
+      - web
+      - db
+      - cache
+    volumes:
+      - .:/app
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: samer-celery-beat
+    env_file:
+      - path: ./.env
+        required: true
+    command: celery -A samer beat -l info --schedule=/app/celerybeat/celerybeat-schedule
+    depends_on:
+      - web
+      - db
+      - cache
+    volumes:
+      - .:/app
+      - celerybeat-data:/app/celerybeat
+
+  db:
+    image: postgres:17-alpine
+    restart: always
+    container_name: samer-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    container_name: samer-cache
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - cache:/data
+
+volumes:
+  data:
+    driver: local
+  cache:
+    driver: local
+  celerybeat-data:
+    driver: local
