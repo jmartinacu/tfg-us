@@ -6,7 +6,7 @@ from django.conf import settings
 
 os.environ.setdefault(
     "DJANGO_SETTINGS_MODULE",
-    "samer.settings.base",
+    "samer.settings.local",
 )
 
 app = Celery("samer")
