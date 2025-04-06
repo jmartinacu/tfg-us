@@ -15,10 +15,10 @@ SECRET_KEY = os.getenv(  # noqa
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("DB_NAME", "samer"),  # noqa
-        "USER": os.getenv("DB_USER", "postgres"),  # noqa
-        "PASSWORD": os.getenv("DB_PASS", ""),  # noqa
-        "HOST": "127.0.0.1",
+        "NAME": os.getenv("POSTGRES_DB", "samer"),  # noqa
+        "USER": os.getenv("POSTGRES_USER", "postgres"),  # noqa
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),  # noqa
+        "HOST": os.getenv("POSTGRES_HOST", "127.0.0.1"),  # noqa
         "PORT": "5432",
     }
 }

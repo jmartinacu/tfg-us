@@ -25,7 +25,7 @@ services:
     env_file:
       - path: ./.env
         required: true
-    command: celery -A samer worker -l info
+    command: celery -A samer worker -l info --uid=nobody --gid=nogroup
     depends_on:
       - web
       - db
