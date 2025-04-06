@@ -15,7 +15,7 @@ services:
       - cache
     volumes:
       - .:/app
-      - ./torch_model_cache:/root/.cache/torch/hub/checkpoints
+      - ./torch_model_cache:/app/torch_model_cache
 
   celery:
     build:
@@ -25,14 +25,14 @@ services:
     env_file:
       - path: ./.env
         required: true
-    command: celery -A samer worker -l info --uid=nobody --gid=nogroup
+    command: celery -A samer worker -l info
     depends_on:
       - web
       - db
       - cache
     volumes:
       - .:/app
-      - ./torch_model_cache:/root/.cache/torch/hub/checkpoints
+      - ./torch_model_cache:/app/torch_model_cache
 
   celery-beat:
     build:
@@ -50,7 +50,7 @@ services:
     volumes:
       - .:/app
       - celerybeat-data:/app/celerybeat
-      - ./torch_model_cache:/root/.cache/torch/hub/checkpoints
+      - ./torch_model_cache:/app/torch_model_cache
 
   db:
     image: postgres:17-alpine

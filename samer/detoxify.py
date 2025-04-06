@@ -3,21 +3,15 @@ from typing import TypedDict
 
 from detoxify import Detoxify
 
+PARENT_DIR = os.path.dirname(os.path.realpath(__file__))
+
 MULTILINGUAL_MODEL = "multilingual_debiased-0b549669.ckpt"
 
-CHECKPOINTS_PATH = f"/root/.cache/torch/hub/checkpoints/{MULTILINGUAL_MODEL}"
-
-torch_checkpoint_exists = os.path.exists(CHECKPOINTS_PATH)
-
-multilingual_model_path = (
-    CHECKPOINTS_PATH
-    if torch_checkpoint_exists
-    else os.path.join(
-        os.path.dirname(__file__),
-        "..",
-        "torch_model_cache",
-        MULTILINGUAL_MODEL,
-    )
+multilingual_model_path = os.path.join(
+    PARENT_DIR,
+    "..",
+    "torch_model_cache",
+    MULTILINGUAL_MODEL,
 )
 
 detoxify = Detoxify(
