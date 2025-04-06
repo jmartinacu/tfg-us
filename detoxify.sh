@@ -6,8 +6,6 @@ MODEL_FILE="multilingual_debiased-0b549669.ckpt"
 
 MODEL_URL="https://github.com/unitaryai/detoxify/releases/download/v0.4-alpha/${MODEL_FILE}"
 
-echo "${SCRIPT_DIR}"
-
 if [[ ! -f "${SCRIPT_DIR}/torch_model_cache/${MODEL_FILE}" ]]; then
   echo "Downloading detoxify model"
   mkdir -p "${SCRIPT_DIR}/torch_model_cache"
