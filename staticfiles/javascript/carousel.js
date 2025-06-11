@@ -1,33 +1,51 @@
-const carousel = document.querySelector('.carousel-images');
-let scrollAmount = 0;
+document.addEventListener("DOMContentLoaded", function() {
+    const wrapper = document.querySelector('.carousel-wrapper');
+    const carousel = document.querySelector('.carousel-images');
+    const prevBtn = document.querySelector('.carousel-button.prev');
+    const nextBtn = document.querySelector('.carousel-button.next');
+    let scrollAmount = 0;
 
-function carouselScrollRight() {
-    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-    if (scrollAmount < maxScroll) {
-        scrollAmount += carousel.clientWidth;
-        if (scrollAmount > maxScroll) {
-            scrollAmount = maxScroll;
-        }
-        carousel.style.transform = `translateX(-${scrollAmount}px)`;
+    function getMaxScroll() {
+        return carousel.scrollWidth - wrapper.clientWidth;
     }
-    updateButtons();
-}
 
-function carouselScrollLeft() {
-    if (scrollAmount > 0) {
-        scrollAmount -= carousel.clientWidth;
-        if (scrollAmount < 0) {
-            scrollAmount = 0;
+    function carouselScrollRight() {
+        const maxScroll = getMaxScroll();
+        if (scrollAmount < maxScroll) {
+            // Avanza exactamente el ancho del viewport pero sin pasarse
+            scrollAmount = Math.min(scrollAmount + wrapper.clientWidth, maxScroll);
+            carousel.style.transform = `translateX(-${scrollAmount}px)`;
         }
-        carousel.style.transform = `translateX(-${scrollAmount}px)`;
+        updateButtons();
     }
+
+    function carouselScrollLeft() {
+        if (scrollAmount > 0) {
+            scrollAmount = Math.max(scrollAmount - wrapper.clientWidth, 0);
+            carousel.style.transform = `translateX(-${scrollAmount}px)`;
+        }
+        updateButtons();
+    }
+
+    function updateButtons() {
+        prevBtn.disabled = scrollAmount <= 0;
+        nextBtn.disabled = scrollAmount >= getMaxScroll() - 1; // el -1 previene errores de redondeo
+    }
+
+    // Inicializar eventos
+    prevBtn.addEventListener('click', carouselScrollLeft);
+    nextBtn.addEventListener('click', carouselScrollRight);
+
+    // Si cambian tamaños de ventana, recalcular
+    window.addEventListener('resize', function() {
+        // Si el scroll actual es mayor que el nuevo máximo, reajusta
+        if (scrollAmount > getMaxScroll()) {
+            scrollAmount = getMaxScroll();
+            carousel.style.transform = `translateX(-${scrollAmount}px)`;
+        }
+        updateButtons();
+    });
+
+    // Inicializar botón en estado correcto
     updateButtons();
-}
-
-function updateButtons() {
-    console.log()
-    document.querySelector('.prev').disabled = scrollAmount <= 0;
-    document.querySelector('.next').disabled = scrollAmount >= carousel.scrollWidth - carousel.clientWidth;
-}
-
-updateButtons();
+});
